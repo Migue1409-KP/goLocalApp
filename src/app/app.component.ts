@@ -14,7 +14,9 @@ export class AppComponent implements OnInit {
 
   title = 'seguroschepito';
   isLoggedIn: boolean = false;
-  autorizado: boolean = false;
+  authorizedAdmin: boolean = false;
+  authorizedUser: boolean = false;
+  authorizedOwner: boolean = false;
   id: string = '';
 
 
@@ -40,9 +42,10 @@ export class AppComponent implements OnInit {
   }
 
   checkRole(): void {
-    // Verificar el rol actual y actualizar `autorizado`
     const role = this.authService.getRole();
-    this.autorizado = role === 'ADMIN';
+    this.authorizedAdmin = role === 'ADMIN';
+    this.authorizedUser = role === 'USER';
+    this.authorizedOwner = role === 'OWNER';
   }
 
   redirectToHome(): void {
@@ -53,10 +56,16 @@ export class AppComponent implements OnInit {
     this.router.navigate(['favorites']);
   }
 
+  redirectToPerfil(): void {
+    this.router.navigate(['perfil']);
+  }
+
   logout(): void {
     this.authService.logout();
     this.isLoggedIn = false;
-    this.autorizado = false;
+    this.authorizedAdmin = false;
+    this.authorizedUser = false;
+    this.authorizedOwner = false;
     this.router.navigate(['/login']);
   }
 }
