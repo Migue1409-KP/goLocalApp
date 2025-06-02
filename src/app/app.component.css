@@ -1,0 +1,70 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 7vh;
+  background-color: var(--color-primary);
+  padding: 0 1rem;
+}
+
+.navbar-left i,
+.navbar-right i {
+  font-size: 1.5rem;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s, color 0.3s;
+}
+
+.navbar-left i:hover,
+.navbar-right i:hover {
+  color: var(--color-secondary);
+  transform: scale(1.1);
+}
+
+/* Ajustes para la campana y el usuario */
+.navbar-right {
+  display: flex;
+  align-items: center; /* Asegura alineación vertical */
+  gap: 1rem; /* Espaciado uniforme entre los íconos */
+}
+
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle {
+  position: relative;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: white;
+  padding: 0.5rem;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu button {
+  border: none;
+  background: none;
+  color: var(--color-primary);
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+}
+
+.dropdown-menu button:hover {
+  background-color: var(--color-secondary);
+  color: white;
+}

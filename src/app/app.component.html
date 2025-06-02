@@ -1,0 +1,14 @@
+<nav class="navbar" *ngIf="isLoggedIn">
+    <div class="navbar-left">
+      <i class="fa-solid fa-house" (click)="redirectToHome()"></i>
+    </div>
+    <div class="navbar-right">
+      <div class="dropdown">
+        <i class="fa-solid fa-user dropdown-toggle"></i>
+        <div class="dropdown-menu">
+          <button (click)="logout()">Cerrar Sesión</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <router-outlet></router-outlet>

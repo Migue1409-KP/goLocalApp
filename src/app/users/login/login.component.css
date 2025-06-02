@@ -1,0 +1,332 @@
+main {
+  width: 100%;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+section {
+  position: relative; /* Asegura que el contenido esté sobre el fondo */
+  z-index: 1; /* Coloca el contenido por encima del fondo */
+  width: 45%;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px; /* Bordes redondeados para el efecto */
+  background: rgba(255, 255, 255, 0.2); /* Fondo blanco con opacidad */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37); /* Sombra suave */
+  backdrop-filter: blur(10px); /* Desenfoque para el efecto Glassmorphism */
+  -webkit-backdrop-filter: blur(10px); /* Compatibilidad con navegadores WebKit */
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Borde semi-transparente */
+}
+
+h1 {
+  width: 100%;
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  display: block;
+  box-sizing: border-box;
+}
+
+.form-group {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+label {
+  font-size: 1.2rem;
+  width: 100%;
+  display: block;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+input[type="number"],
+input[type="text"],
+input[type="checkbox"] {
+  width: 100%;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  margin-bottom: 0.5rem;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+input[type="checkbox"]:focus {
+  outline: none;
+  border-color: var(--color-secondary); /* Color al enfocar */
+}
+
+button {
+  background-color: var(--color-secondary);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: inline-block;
+  margin: 0 auto; /* Centra el botón */
+  display: block; /* Asegura que el botón sea un elemento de bloque para el centrado */
+}
+
+button:hover {
+  background-color: var(--color-primary);
+}
+
+button[disabled] {
+  background-color: var(--color-accent);
+  color: black;
+  cursor: not-allowed;
+}
+
+.form-group {
+  width: 100%;
+  text-align: center; /* Centrar los elementos dentro del grupo de formulario */
+}
+
+
+.form-check-input {
+  margin-left: 0;
+}
+
+
+/* Estilos del spinner */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 1rem auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Estilos del modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content h2 {
+  margin-bottom: 1rem;
+}
+
+.modal-content button {
+  background-color: var(--color-secondary);
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s;
+}
+
+.modal-content button:hover {
+  background-color: var(--color-primary);
+}
+
+.input-with-icon {
+  position: relative;
+  width: 100%;
+}
+
+.input-with-icon input {
+  padding-right: 2.5rem; /* Espacio para el ícono */
+}
+
+.input-with-icon i {
+  position: absolute;
+  top: 50%;
+  right: 0.8rem;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: #888; /* Color inicial del ícono */
+  transition: color 0.3s ease; /* Animación suave del color */
+}
+
+.input-with-icon input:hover + i, /* Cambia el color del ícono cuando se pasa el cursor sobre el input */
+.input-with-icon input:focus + i { /* También aplica cuando el input está enfocado */
+  color: var(--color-primary); /* Nuevo color al hacer hover o focus */
+}
+
+/* Para navegadores WebKit (Chrome, Safari, Edge) */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Para Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Fondo general */
+.background {
+  position: fixed; /* Fija el fondo para que no se mueva al hacer scroll */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Coloca el fondo detrás del contenido */
+  overflow: hidden; /* Evita que las formas se salgan del contenedor */
+}
+
+/* Forma general */
+.shape {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Círculos */
+.shape.circle {
+  width: 100px;
+  height: 100px;
+}
+
+/* Cuadrados */
+.shape.square {
+  border-radius: 0;
+  width: 80px;
+  height: 80px;
+}
+
+/* Posiciones de las formas */
+.shape:nth-child(1) {
+  top: 10%;
+  left: 20%;
+  background: #ff6b6b;
+}
+
+.shape:nth-child(2) {
+  top: 50%;
+  left: 70%;
+  background: #1dd1a1;
+}
+
+.shape:nth-child(3) {
+  top: 70%;
+  left: 40%;
+  background: #5f27cd;
+}
+
+.shape:nth-child(4) {
+  top: 30%;
+  left: 80%;
+  background: #feca57;
+}
+
+.shape:nth-child(5) {
+  top: 80%;
+  left: 10%;
+  background: #54a0ff;
+}
+
+.btn-secondary {
+  background-color: #eee;
+  color: #333;
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 20px;
+  border: none;
+  margin-top: 0.5rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-secondary:hover {
+  background-color: #ccc;
+}
+
+.button-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap; /* Para que se acomode en móvil */
+  margin-top: 1rem;
+}
+
+.button-row button {
+  flex: 1;
+  min-width: 180px;
+  max-width: 250px;
+}
+
+.button-separator {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.error-box {
+  background-color: rgba(255, 0, 0, 0.1);
+  color: #a30000;
+  border: 1px solid #a30000;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 500;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.error-box i {
+  font-size: 1.2rem;
+}
+
+/* Animación de movimiento */
+@keyframes float {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.1);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}

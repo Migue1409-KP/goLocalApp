@@ -1,0 +1,46 @@
+<main>
+  <div class="background">
+    <div class="shape circle"></div>
+    <div class="shape square"></div>
+    <div class="shape circle"></div>
+    <div class="shape square"></div>
+    <div class="shape circle"></div>
+  </div>
+
+  <section>
+    <h1>Iniciar Sesión</h1>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+      <!-- Error -->
+      <div *ngIf="errorMessage" class="error-box">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span>{{ errorMessage }}</span>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group input-icon-group">
+        <label for="email">Correo:</label>
+        <div class="input-with-icon">
+          <input id="email" type="email" formControlName="email" class="form-control" />
+          <i class="fa-solid fa-envelope"></i>
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group input-icon-group">
+        <label for="password">Contraseña:</label>
+        <div class="input-with-icon">
+          <input id="password" type="password" formControlName="password" class="form-control" />
+          <i class="fa-solid fa-lock"></i>
+        </div>
+      </div>
+
+      <!-- Spinner -->
+      <div *ngIf="isLoading" class="spinner"></div>
+
+      <!-- Botón -->
+      <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid || isLoading">Iniciar sesión</button>
+      <button type="button" class="btn btn-secondary" routerLink="/register">Crear cuenta</button>
+    </form>
+  </section>
+</main>
