@@ -1,0 +1,36 @@
+<main>
+  <div class="background">
+    <div class="shape circle"></div>
+    <div class="shape square"></div>
+    <div class="shape circle"></div>
+    <div class="shape square"></div>
+    <div class="shape circle"></div>
+  </div>
+
+  <section class="profile-container">
+    <h1>Mi Perfil</h1>
+
+    <div *ngIf="isLoading" class="spinner"></div>
+    <div *ngIf="error" class="error-box">{{ error }}</div>
+    <div *ngIf="message" class="success-box">{{ message }}</div>
+
+    <form *ngIf="!isLoading" [formGroup]="userForm" (ngSubmit)="onSave()">
+      <div class="form-grid">
+        <div class="form-group" *ngFor="let field of ['name', 'lastName', 'phone', 'taxId', 'email']">
+          <label [for]="field">{{ field | titlecase }}</label>
+          <input [id]="field" type="text" class="form-control" [formControlName]="field" [readonly]="!isEditing" />
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button type="button" class="btn btn-secondary" (click)="toggleEdit()">
+          {{ isEditing ? 'Cancelar' : 'Editar' }}
+        </button>
+
+        <button *ngIf="isEditing" type="submit" class="btn btn-primary" [disabled]="userForm.invalid">
+          Guardar Cambios
+        </button>
+      </div>
+    </form>
+  </section>
+</main>
