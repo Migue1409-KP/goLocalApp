@@ -1,0 +1,29 @@
+<main>
+  <div class="background">
+    <div class="shape circle"></div>
+    <div class="shape square"></div>
+    <div class="shape circle"></div>
+    <div class="shape square"></div>
+    <div class="shape circle"></div>
+  </div>
+
+  <section>
+    <h1>Mis Favoritos</h1>
+
+    <div *ngIf="isLoading" class="spinner"></div>
+    <div *ngIf="error" class="error-box">
+      <i class="fa-solid fa-circle-exclamation"></i> {{ error }}
+    </div>
+
+    <div *ngIf="!isLoading && favorites.length === 0" class="no-favs">
+      No tienes favoritos todavía 🧐
+    </div>
+
+    <div class="card-container" *ngIf="favorites.length > 0">
+      <div class="card" *ngFor="let fav of favorites" (click)="goToExperience(fav.experience.id)">
+        <h3>{{ fav.experience.name }}</h3>
+        <p>{{ fav.experience.price | currency:'COP':'symbol':'1.0-0' }}</p>
+      </div>
+    </div>
+  </section>
+</main>

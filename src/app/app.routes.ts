@@ -6,6 +6,7 @@ import { LoggedAuthGuard } from './guards/logged.guard';
 import { OwnerAuthGuard } from './guards/owner.guard';
 import { RegisterComponent } from './users/register/register.component';
 import { LoginComponent } from './users/login/login.component';
+import { FavoritesComponent } from './users/favorites/favorites.component';
 
 export const routes: Routes = [
     {
@@ -23,6 +24,11 @@ export const routes: Routes = [
         path: 'login',
         title: 'Iniciar Sesión',
         component: LoginComponent
+    },
+    {
+        path: 'favorites',
+        title: 'Mis Favoritos',
+        component: FavoritesComponent
     },
     {
         path: '**',

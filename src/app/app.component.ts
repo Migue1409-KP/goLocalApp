@@ -49,8 +49,8 @@ export class AppComponent implements OnInit {
     this.router.navigate(['']);
   }
 
-  redirectToNotifications(): void {
-    this.router.navigate(['notificaciones']);
+  redirectToFavorites(): void {
+    this.router.navigate(['favorites']);
   }
 
   logout(): void {
@@ -58,13 +58,5 @@ export class AppComponent implements OnInit {
     this.isLoggedIn = false;
     this.autorizado = false;
     this.router.navigate(['/login']);
-  }
-
-  configuracion(): void {
-    this.router.navigate(['listar']);
-  }
-
-  navigateToHistorialPagos(): void {
-    this.router.navigate(['/mis-seguros']).then();
   }
 }
