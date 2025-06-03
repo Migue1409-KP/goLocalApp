@@ -21,6 +21,11 @@
 
     <div class="card-container" *ngIf="favorites.length > 0">
       <div class="card" *ngFor="let fav of favorites" (click)="goToExperience(fav.experience.id)">
+        <!-- Botón eliminar -->
+        <button class="delete-btn" (click)="deleteFavorite(fav.id, $event)">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+
         <h3>{{ fav.experience.name }}</h3>
         <p>{{ fav.experience.price | currency:'COP':'symbol':'1.0-0' }}</p>
       </div>

@@ -43,4 +43,19 @@ export class FavoritesComponent implements OnInit {
   goToExperience(id: string): void {
     this.router.navigate(['/experience', id]);
   }
+
+  deleteFavorite(favoriteId: string, event: MouseEvent): void {
+    event.stopPropagation(); // Evita que se dispare el click de la tarjeta
+
+    this.http.delete(`http://localhost:8080/api/v1/rest/favorites/${favoriteId}`)
+      .subscribe({
+        next: () => {
+          // Quita el favorito de la lista
+          this.favorites = this.favorites.filter(fav => fav.id !== favoriteId);
+        },
+        error: () => {
+          alert('No se pudo eliminar el favorito.');
+        }
+      });
+  }
 }
