@@ -15,12 +15,3 @@ body {
   --color-background-light: #f8f8f8;
   --principal-font: 'Roboto', sans-serif;
 }
-
-.background-image {
-  background-image: url('assets/register.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  height: 100vh;
-  width: 100vw;
-}
