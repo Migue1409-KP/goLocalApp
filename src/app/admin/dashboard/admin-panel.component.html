@@ -1,0 +1,107 @@
+<main class="admin-container">
+  <h1>Panel de Administración</h1>
+<!-- <div style="text-align:center; margin:1rem; font-size:0.8rem;">
+  [debug] totalPages: {{ totalPages }} | currentPage: {{ currentPage }} | totalItems: {{ totalItems }}
+</div> -->
+  <div class="tab-buttons">
+    <button [class.active]="activeTab === 'users'" (click)="switchTab('users')">Usuarios</button>
+    <button [class.active]="activeTab === 'businesses'" (click)="switchTab('businesses')">Negocios</button>
+  </div>
+
+  <div *ngIf="isLoading" class="lazy-spinner">
+    <span class="loader"></span>
+  </div>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <!-- Tabla de usuarios -->
+  <table *ngIf="activeTab === 'users' && !isLoading" class="data-table users-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>CC</th>
+        <th>Rol</th>
+        <th>Email</th>
+        <th>Teléfono</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of pagedUsers">
+        <td>{{ user.name }}</td>
+        <td>{{ user.lastName }}</td>
+        <td>{{ user.taxId }}</td>
+        <td>{{ user.role }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.phone }}</td>
+        <td>
+          <button class="icon-btn" (click)="promptDelete(user.id)">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <!-- Paginación para Usuarios -->
+  <div class="pagination" *ngIf="activeTab === 'users' && !isLoading && userTotalPages > 1">
+    <button (click)="goToPage(userCurrentPage - 1)" [disabled]="userCurrentPage === 0">
+      <i class="fa-solid fa-angle-left"></i>
+    </button>
+
+    <span>Página {{ userCurrentPage + 1 }} de {{ userTotalPages }}</span>
+
+    <button (click)="goToPage(userCurrentPage + 1)" [disabled]="userCurrentPage + 1 >= userTotalPages">
+      <i class="fa-solid fa-angle-right"></i>
+    </button>
+  </div>
+
+  <hr *ngIf="activeTab === 'businesses'" style="margin-top: 2rem;">
+  <!-- Tabla de negocios -->
+  <table *ngIf="activeTab === 'businesses' && !isLoading" class="data-table businesses-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Ciudad</th>
+        <th>Departamento</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let biz of pagedBusinesses">
+        <td>{{ biz.name }}</td>
+        <td>{{ biz.location.name }}</td>
+        <td>{{ biz.location.state.name }}</td>
+        <td>
+          <button class="icon-btn" (click)="promptDelete(biz.id)">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Paginación para Negocios -->
+  <div class="pagination" *ngIf="activeTab === 'businesses' && !isLoading && businessTotalPages > 1">
+    <button (click)="goToPage(businessCurrentPage - 1)" [disabled]="businessCurrentPage === 0">
+      <i class="fa-solid fa-angle-left"></i>
+    </button>
+
+    <span>Página {{ businessCurrentPage + 1 }} de {{ businessTotalPages }}</span>
+
+    <button (click)="goToPage(businessCurrentPage + 1)" [disabled]="businessCurrentPage + 1 >= businessTotalPages">
+      <i class="fa-solid fa-angle-right"></i>
+    </button>
+  </div>
+</main>
+<!-- Modal de confirmación - DEBE estar FUERA del <main> -->
+<div *ngIf="showConfirmModal" class="modal-overlay">
+  <div class="modal-content">
+    <h2>¿Estás seguro?</h2>
+    <p>Esta acción no se puede deshacer.</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" (click)="cancelDelete()">Cancelar</button>
+      <button class="btn btn-danger" (click)="confirmDelete()">Eliminar</button>
+    </div>
+  </div>
+</div>

@@ -9,6 +9,7 @@ import { RegisterComponent } from './users/register/register.component';
 import { LoginComponent } from './users/login/login.component';
 import { FavoritesComponent } from './users/favorites/favorites.component';
 import { PerfilComponent } from './users/perfil/perfil.component';
+import { AdminPanelComponent } from './admin/dashboard/admin-panel.component';
 
 export const routes: Routes = [
     {
@@ -32,6 +33,12 @@ export const routes: Routes = [
         title: 'Mi Perfil',
         component: PerfilComponent,
         canActivate: [LoggedAuthGuard]
+    },
+    {
+        path: 'admin',
+        title: 'Administración',
+        component: AdminPanelComponent,
+        canActivate: [AdminAuthGuard]
     },
     {
         path: '**',

@@ -1,0 +1,249 @@
+.admin-container {
+  padding: 2rem;
+  margin-top: 4rem; /* <-- separación del navbar */
+  max-width: 1000px;
+  margin-inline: auto;
+  background-color: #ffffffee;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.tab-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.tab-buttons button {
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  border: none;
+  background-color: #eee;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.tab-buttons button.active,
+.tab-buttons button:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.error {
+  text-align: center;
+  color: red;
+  margin: 1rem 0;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  table-layout: fixed;
+}
+
+.data-table thead {
+  background-color: #007bff;
+  color: white;
+}
+
+.data-table th,
+.data-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #ddd;
+  text-align: center;
+}
+
+.data-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: #e00;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+/* Spinner animado */
+.lazy-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.loader {
+  width: 40px;
+  height: 40px;
+  border: 5px solid #ddd;
+  border-top-color: #007bff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Modal UI */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 2rem;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content h2 {
+  margin-bottom: 0.5rem;
+}
+
+.modal-content p {
+  margin-bottom: 1.5rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.btn {
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-danger {
+  background: #dc3545;
+  color: white;
+}
+
+.btn-secondary {
+  background: #ddd;
+  color: #333;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.pagination button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.pagination button[disabled] {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  font-weight: 500;
+}
+
+.data-table th:nth-child(1),
+.data-table td:nth-child(1) {
+  width: 25%;
+}
+
+.data-table th:nth-child(2),
+.data-table td:nth-child(2) {
+  width: 25%;
+}
+
+.data-table th:nth-child(3),
+.data-table td:nth-child(3) {
+  width: 25%;
+}
+
+.data-table th:nth-child(4),
+.data-table td:nth-child(4) {
+  width: 25%;
+}
+
+.data-table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Tabla de usuarios: 7 columnas */
+.users-table th:nth-child(1),
+.users-table td:nth-child(1) { width: 14%; }
+
+.users-table th:nth-child(2),
+.users-table td:nth-child(2) { width: 14%; }
+
+.users-table th:nth-child(3),
+.users-table td:nth-child(3) { width: 14%; }
+
+.users-table th:nth-child(4),
+.users-table td:nth-child(4) { width: 14%; }
+
+.users-table th:nth-child(5),
+.users-table td:nth-child(5) { width: 18%; }
+
+.users-table th:nth-child(6),
+.users-table td:nth-child(6) { width: 14%; }
+
+.users-table th:nth-child(7),
+.users-table td:nth-child(7) { width: 12%; }
+
+/* Tabla de negocios: 4 columnas */
+.businesses-table th:nth-child(1),
+.businesses-table td:nth-child(1) { width: 30%; }
+
+.businesses-table th:nth-child(2),
+.businesses-table td:nth-child(2) { width: 25%; }
+
+.businesses-table th:nth-child(3),
+.businesses-table td:nth-child(3) { width: 25%; }
+
+.businesses-table th:nth-child(4),
+.businesses-table td:nth-child(4) { width: 20%; }
+
