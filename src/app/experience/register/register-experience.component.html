@@ -1,0 +1,46 @@
+<div class="form-container">
+  <h2>Registrar Experiencia</h2>
+
+  <form [formGroup]="experienceForm" (ngSubmit)="onSubmit()">
+
+    <label>
+      Nombre de la experiencia:
+      <input formControlName="name" placeholder="Nombre" />
+    </label>
+
+    <label>
+      Descripción:
+      <textarea formControlName="description" placeholder="Descripción"></textarea>
+    </label>
+
+    <label>
+      Precio (COP):
+      <input type="number" formControlName="price" placeholder="Precio" />
+    </label>
+
+    <label>
+      Categoría:
+      <ng-multiselect-dropdown
+        [data]="categories"
+        formControlName="categoryId"
+        [settings]="dropdownSettings"
+        [ngModel]="experienceForm.get('categoryId')?.value"
+      >
+      </ng-multiselect-dropdown>
+    </label>
+
+    <div *ngIf="error" class="error-box">
+      {{ error }}
+      <span class="close-btn" (click)="error = null">✖</span>
+    </div>
+
+    <div *ngIf="success" class="success-box">
+      {{ success }}
+      <span class="close-btn" (click)="success = null">✖</span>
+    </div>
+
+    <div class="button-center">
+      <button type="submit">Registrar</button>
+    </div>
+  </form>
+</div>
