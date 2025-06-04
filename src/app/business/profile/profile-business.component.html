@@ -1,0 +1,50 @@
+<div class="business-profile-container">
+  <!-- Botón lateral izquierdo -->
+  <div class="sidebar-button">
+    <button class="cta-button" (click)="goToRegisterExperience()">
+      ➕ Registrar experiencia
+    </button>
+  </div>
+
+  <!-- Bloque principal del perfil del negocio -->
+  <section *ngIf="!isLoading && business">
+    <h1>{{ business.name }}</h1>
+    <p>{{ business.description }}</p>
+    <p><strong>📍 Ubicación:</strong> {{ business.location.name }}, {{ business.location.state.name }}</p>
+
+    <div *ngIf="business.categories.length > 0">
+      <p><strong>Categorías:</strong></p>
+      <ul>
+        <li *ngFor="let cat of business.categories">{{ cat.name }}</li>
+      </ul>
+    </div>
+
+    <div *ngIf="business.experiences.length > 0">
+      <p style="margin-top: 2rem;"><strong>🧪 Experiencias disponibles:</strong></p>
+
+      <div
+        *ngFor="let exp of business.experiences"
+        class="experience-card"
+        (click)="goToExperience(exp.id)"
+      >
+        <div class="exp-header">
+          <h3>{{ exp.name }}</h3>
+          <p class="exp-price">💲{{ exp.price | number: '1.0-0' }}</p>
+        </div>
+        <p class="exp-description">{{ exp.description }}</p>
+      </div>
+    </div>
+
+    <div *ngIf="business.experiences.length === 0">
+      <p>Este negocio aún no tiene experiencias registradas.</p>
+    </div>
+  </section>
+
+  <!-- Cargando -->
+  <div *ngIf="isLoading" class="spinner"></div>
+
+  <!-- Error -->
+  <div *ngIf="errorMessage" class="error-box">
+    <i class="fa-solid fa-circle-exclamation"></i> {{ errorMessage }}
+  </div>
+</div>
