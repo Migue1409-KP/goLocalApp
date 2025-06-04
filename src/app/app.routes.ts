@@ -9,15 +9,16 @@ import { RegisterComponent } from './users/register/register.component';
 import { LoginComponent } from './users/login/login.component';
 import { FavoritesComponent } from './users/favorites/favorites.component';
 import { PerfilComponent } from './users/perfil/perfil.component';
-import { AdminPanelComponent } from './admin/dashboard/admin-panel.component';
-import { RegisterBusinessComponent } from './business/register/register.component';
-import { BusinessListComponent } from './business/list/business-list.component';
-import { ProfileBusinessComponent } from './business/profile/profile-business.component';
-import { RegisterExperienceComponent } from './experience/register/register-experience.component';
-import { ExperienceListComponent } from './experience/list/experience-list.component';
-import { ProfileExperienceComponent } from './experience/profile/profile-experience.component';
-import { HomeComponent } from './home/home.component';
-
+import {HomeComponent} from './home/home.component';
+import {ShowComponent} from './routes/show/show.component';
+import {DetailsComponent} from './routes/details/details.component';
+import {AdminPanelComponent} from './admin/dashboard/admin-panel.component';
+import {RegisterBusinessComponent} from './business/register/register.component';
+import {BusinessListComponent} from './business/list/business-list.component';
+import {ProfileBusinessComponent} from './business/profile/profile-business.component';
+import {RegisterExperienceComponent} from './experience/register/register-experience.component';
+import {ExperienceListComponent} from './experience/list/experience-list.component';
+import {ProfileExperienceComponent} from './experience/profile/profile-experience.component';
 
 export const routes: Routes = [
     {
@@ -46,6 +47,18 @@ export const routes: Routes = [
         title: 'Mi Perfil',
         component: PerfilComponent,
         canActivate: [LoggedAuthGuard]
+    },
+    {
+      path: 'routes',
+      title: 'Rutas',
+      component: ShowComponent,
+      canActivate: [UserAuthGuard]
+    },
+    {
+        path: 'routes/:id',
+        title: 'Detalles de Ruta',
+        component: DetailsComponent,
+        canActivate: [UserAuthGuard]
     },
     {
         path: 'admin',
@@ -93,6 +106,5 @@ export const routes: Routes = [
     {
         path: '**',
         component: NotFoundComponent
-    },
-
+    }
 ];

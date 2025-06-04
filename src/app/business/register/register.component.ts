@@ -116,6 +116,8 @@ export class RegisterBusinessComponent implements OnInit {
 
   onCategoryChange() {
     const control = this.businessForm.get('categories');
-    control?.setValue([...control.value]); // fuerza el update
+    if (control) {
+      control?.setValue([...control.value]);
+    } // fuerza el update
   }
 }

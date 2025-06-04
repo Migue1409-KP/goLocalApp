@@ -1,0 +1,122 @@
+<div class="container mt-4">
+  <div class="row mb-4">
+    <div class="col-6">
+      <h2>Mis Rutas</h2>
+    </div>
+    <div class="col-6 text-end">
+      <button class="btn btn-primary" (click)="openCreateModal()">
+        Crear nueva ruta
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando rutas...</span>
+    </div>
+    <p class="mt-2">Cargando rutas...</p>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && !error && routes.length === 0" class="text-center my-4">
+    <p class="text-muted">No tienes rutas creadas todavía.</p>
+  </div>
+
+  <!-- Routes Grid -->
+  <div *ngIf="!loading && !error && routes.length > 0" class="row">
+    <div *ngFor="let route of routes" class="col-md-6 col-lg-4 mb-4">
+      <div class="card h-100 cursor-pointer route-card"
+           [attr.data-route-id]="route.id"
+           (click)="goToDetails(route, $event)">
+        <div class="card-body">
+          <h5 class="card-title text-primary mb-3">{{ route.name }}</h5>
+          <p class="card-text mb-3">
+            <small class="text-muted d-flex align-items-center">
+              <i class="bi bi-person-fill me-2"></i>
+              {{ route.user.name }} {{ route.user.lastName }}
+            </small>
+          </p>
+
+          <div class="route-info mb-3">
+            <div class="categories-section">
+              <strong><i class="bi bi-tag-fill me-2"></i>Categorías:</strong>
+              <div class="categories mt-1">
+                <span *ngIf="route.category?.length === 0" class="text-muted">
+                  Sin categorías
+                </span>
+                <div *ngIf="route.category?.length > 0" class="category-tags">
+                  <span *ngFor="let cat of route.category" class="category-tag">
+                    {{ cat }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="experiences-section mt-3">
+              <strong><i class="bi bi-star-fill me-2"></i>Experiencias:</strong>
+              <div class="experiences mt-1">
+                <span *ngIf="route.experience?.length === 0" class="text-muted">
+                  Sin experiencias
+                </span>
+                <ul *ngIf="route.experience?.length > 0" class="experience-list">
+                  <li *ngFor="let exp of route.experience">{{ exp }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Route Modal -->
+  <div *ngIf="showCreateModal" class="modal fade show d-block" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Crear Nueva Ruta</h5>
+          <button type="button" class="btn-close" (click)="closeCreateModal()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div *ngIf="error" class="alert alert-danger">
+            {{ error }}
+          </div>
+          <div class="form-group">
+            <label for="routeName" class="form-label">Nombre de la Ruta</label>
+            <input
+              type="text"
+              class="form-control"
+              id="routeName"
+              [(ngModel)]="newRouteName"
+              placeholder="Ingresa el nombre de la ruta"
+              [disabled]="creatingRoute">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="closeCreateModal()"
+            [disabled]="creatingRoute">
+            Cancelar
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            (click)="createRoute()"
+            [disabled]="creatingRoute || !newRouteName.trim()">
+            <span *ngIf="creatingRoute" class="spinner-border spinner-border-sm me-1" role="status"></span>
+            {{ creatingRoute ? 'Creando...' : 'Crear' }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="modal-backdrop fade show"></div>
+  </div>
+</div>
