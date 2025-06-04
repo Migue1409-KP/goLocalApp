@@ -28,6 +28,7 @@
     "http-proxy-middleware": "^3.0.3",
     "jquery": "^3.7.1",
     "jwt-decode": "^4.0.0",
+    "ng-multiselect-dropdown": "^1.0.0",
     "ngx-bootstrap": "^18.1.2",
     "ngx-cookie-service": "^18.0.0",
     "rxjs": "~7.8.0",
