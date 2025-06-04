@@ -1,8 +1,13 @@
 <main class="admin-container">
   <h1>Panel de Administración</h1>
-<!-- <div style="text-align:center; margin:1rem; font-size:0.8rem;">
-  [debug] totalPages: {{ totalPages }} | currentPage: {{ currentPage }} | totalItems: {{ totalItems }}
-</div> -->
+
+  <!-- Botón Crear solo para categorías o ciudades -->
+  <div class="top-right" *ngIf="activeTab === 'categories' || activeTab === 'cities'">
+    <button class="btn btn-primary" (click)="openCreateModal(activeTab === 'categories' ? 'category' : 'city')">
+      <i class="fa-solid fa-plus"></i> Crear {{ activeTab === 'categories' ? 'Categoría' : 'Ciudad' }}
+    </button>
+  </div>
+
   <div class="tab-buttons">
     <button [class.active]="activeTab === 'users'" (click)="switchTab('users')">Usuarios</button>
     <button [class.active]="activeTab === 'businesses'" (click)="switchTab('businesses')">Negocios</button>
@@ -164,6 +169,33 @@
     <div class="modal-actions">
       <button class="btn btn-secondary" (click)="cancelDelete()">Cancelar</button>
       <button class="btn btn-danger" (click)="confirmDelete()">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de creación de categorías o ciudades -->
+<div *ngIf="showCreateModal" class="modal-overlay">
+  <div class="modal-content">
+    <h2>Crear {{ createMode === 'category' ? 'Categoría' : 'Ciudad' }}</h2>
+
+    <div *ngIf="createMode === 'category'">
+      <input type="text" [(ngModel)]="newCategoryName" placeholder="Nombre de la categoría" />
+    </div>
+
+    <div *ngIf="createMode === 'city'">
+      <input type="text" [(ngModel)]="newCityName" placeholder="Nombre de la ciudad" />
+      <select [(ngModel)]="selectedStateId">
+        <option value="">Seleccione Departamento</option>
+        <option *ngFor="let s of states" [value]="s.id">{{ s.name }}</option>
+      </select>
+    </div>
+
+    <div class="error" *ngIf="createError">{{ createError }}</div>
+    <div class="success-box" *ngIf="createSuccess">{{ createSuccess }}</div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" (click)="closeCreateModal()">Cancelar</button>
+      <button class="btn btn-primary" (click)="submitCreate()">Crear</button>
     </div>
   </div>
 </div>

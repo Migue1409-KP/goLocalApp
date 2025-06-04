@@ -47,6 +47,16 @@ export class AdminPanelComponent implements OnInit {
   showConfirmModal = false;
   itemToDelete: { id: string; type: 'users' | 'businesses' | 'categories' | 'cities' } | null = null;
 
+  // Modal creación
+  showCreateModal = false;
+  createMode: 'category' | 'city' | null = null;
+  newCategoryName = '';
+  newCityName = '';
+  selectedStateId = '';
+  states: any[] = []; // Estados para dropdown
+
+  createError: string | null = null;
+  createSuccess: string | null = null;
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
@@ -220,5 +230,78 @@ export class AdminPanelComponent implements OnInit {
 
   get cityTotalPages(): number {
     return Math.ceil(this.cityTotalItems / this.pageSize);
+  }
+
+  loadStates() {
+    this.http.get<any[]>('http://localhost:8080/api/v1/rest/states').subscribe({
+      next: (res) => {
+        this.states = res.sort((a, b) => a.name.localeCompare(b.name));
+      },
+      error: () => this.createError = 'Error al cargar departamentos.'
+    });
+  }
+
+
+  openCreateModal(type: 'category' | 'city') {
+    this.createMode = type;
+    this.newCategoryName = '';
+    this.newCityName = '';
+    this.selectedStateId = '';
+    this.createError = null;
+    this.createSuccess = null;
+    this.showCreateModal = true;
+    document.body.classList.add('modal-open');
+
+    if (type === 'city') {
+      this.loadStates();
+    }
+  }
+
+  closeCreateModal() {
+    this.showCreateModal = false;
+    this.createMode = null;
+    document.body.classList.remove('modal-open');
+  }
+
+  submitCreate() {
+    if (this.createMode === 'category') {
+      if (!this.newCategoryName.trim()) {
+        this.createError = 'El nombre no puede estar vacío';
+        return;
+      }
+
+      this.http.post('http://localhost:8080/api/v1/rest/category', {
+        name: this.newCategoryName.trim()
+      }).subscribe({
+        next: (res: any) => {
+          this.createSuccess = res.message || 'Categoría creada.';
+          this.fetchData();
+          setTimeout(() => this.closeCreateModal(), 1200);
+        },
+        error: (err) => {
+          this.createError = err?.error?.message || 'Error creando categoría';
+        }
+      });
+
+    } else if (this.createMode === 'city') {
+      if (!this.newCityName.trim() || !this.selectedStateId) {
+        this.createError = 'Todos los campos son obligatorios';
+        return;
+      }
+
+      this.http.post('http://localhost:8080/api/v1/rest/cities', {
+        name: this.newCityName.trim(),
+        state: this.selectedStateId
+      }).subscribe({
+        next: (res: any) => {
+          this.createSuccess = res.message || 'Ciudad creada.';
+          this.fetchData();
+          setTimeout(() => this.closeCreateModal(), 1200);
+        },
+        error: (err) => {
+          this.createError = err?.error?.message || 'Error creando ciudad';
+        }
+      });
+    }
   }
 }
