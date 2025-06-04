@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule, FormsModule],
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.css']
 })
@@ -18,6 +18,9 @@ export class PerfilComponent implements OnInit {
   isEditing = false;
   message: string | null = null;
   error: string | null = null;
+  showPasswordModal = false;
+  newPassword: string = '';
+
 
   constructor(
     private http: HttpClient,
@@ -89,5 +92,45 @@ export class PerfilComponent implements OnInit {
           this.message = null;
         }
       });
+  }
+
+  changePassword(): void {
+    this.newPassword = '';
+    this.showPasswordModal = true;
+  }
+
+  cancelPasswordChange(): void {
+    this.showPasswordModal = false;
+    this.newPassword = '';
+  }
+
+  submitPasswordChange(): void {
+    if (!this.newPassword || this.newPassword.trim().length < 6) {
+      this.error = 'Contraseña no válida (mínimo 6 caracteres).';
+      setTimeout(() => this.error = null, 2000);
+      return;
+    }
+
+    const userId = this.authService.getId();
+
+    this.http.put(`http://localhost:8080/api/v1/rest/users/password/${userId}`, {
+      password: this.newPassword
+    }, { observe: 'response' }).subscribe({
+      next: (res) => {
+        if (res.status === 200) {
+          this.message = 'Contraseña actualizada exitosamente.';
+          setTimeout(() => this.message = null, 2000);
+        } else {
+          this.error = 'Error al actualizar contraseña.';
+          setTimeout(() => this.error = null, 2000);
+        }
+        this.showPasswordModal = false;
+      },
+      error: () => {
+        this.error = 'Error al actualizar contraseña.';
+        setTimeout(() => this.error = null, 2000);
+        this.showPasswordModal = false;
+      }
+    });
   }
 }

@@ -1,0 +1,17 @@
+<main>
+  <h1>🧪 Lista de Experiencias</h1>
+
+  <div *ngIf="loading" class="spinner"></div>
+
+  <div *ngIf="!loading" class="experience-list">
+    <div 
+      *ngFor="let exp of experiences" 
+      class="experience-card"
+      (click)="goToExperience(exp.id)"
+    >
+      <h2>{{ exp.name }}</h2>
+      <p class="description">{{ exp.description }}</p>
+      <p class="price">💰 {{ exp.price | currency:'COP':'symbol':'1.0-0' }}</p>
+    </div>
+  </div>
+</main>

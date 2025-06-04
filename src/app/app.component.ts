@@ -60,6 +60,10 @@ export class AppComponent implements OnInit {
     this.router.navigate(['perfil']);
   }
 
+  redirectToAdmin(): void {
+    this.router.navigate(['admin']);
+  }
+
   logout(): void {
     this.authService.logout();
     this.isLoggedIn = false;

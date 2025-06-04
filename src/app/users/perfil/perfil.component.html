@@ -23,14 +23,37 @@
       </div>
 
       <div class="button-row">
+        <!-- Botón editar -->
         <button type="button" class="btn btn-secondary" (click)="toggleEdit()">
           {{ isEditing ? 'Cancelar' : 'Editar' }}
         </button>
 
+        <!-- Botón guardar -->
         <button *ngIf="isEditing" type="submit" class="btn btn-primary" [disabled]="userForm.invalid">
           Guardar Cambios
+        </button>
+
+        <!-- Botón cambiar contraseña -->
+        <button *ngIf="!isEditing" type="button" class="btn btn-danger" (click)="changePassword()">
+          Cambiar Contraseña
         </button>
       </div>
     </form>
   </section>
+  <!-- Modal de cambio de contraseña -->
+  <div *ngIf="showPasswordModal" class="modal-overlay">
+    <div class="modal-content">
+      <h2>Cambiar Contraseña</h2>
+
+      <div class="form-group">
+        <label for="newPassword">Nueva contraseña:</label>
+        <input id="newPassword" type="password" [(ngModel)]="newPassword" class="form-control" />
+      </div>
+
+      <div class="button-row">
+        <button class="btn btn-secondary" (click)="cancelPasswordChange()">Cancelar</button>
+        <button class="btn btn-primary" (click)="submitPasswordChange()">Guardar</button>
+      </div>
+    </div>
+  </div>
 </main>

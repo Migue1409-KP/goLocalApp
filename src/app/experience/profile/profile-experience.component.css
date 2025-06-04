@@ -1,0 +1,70 @@
+.experience-profile {
+  max-width: 700px;
+  margin: 4rem auto;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.experience-profile h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #0d47a1;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid rgba(13, 71, 161, 0.2);
+  padding-bottom: 0.5rem;
+  letter-spacing: 0.5px;
+  background: linear-gradient(to right, #0d47a1, #0d47a1);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.description {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.meta-data p {
+  font-size: 1rem;
+  margin: 0.3rem 0;
+}
+
+.meta-data .price {
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.meta-data .category {
+  color: #6a1b9a;
+}
+
+.meta-data .business {
+  color: #0277bd;
+}
+
+/* Spinner de carga */
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 4rem;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

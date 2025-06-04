@@ -42,7 +42,7 @@ export class LoginComponent {
     this.authService.login(usuario).subscribe({
       next: () => {
         this.errorMessage = null;
-        this.router.navigate(['/']); // redirige al home o dashboard
+        this.router.navigate(['/home']); // redirige al home o dashboard
       },
       error: (err) => {
         this.isLoading = false;
