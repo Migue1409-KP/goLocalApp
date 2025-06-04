@@ -1,5 +1,6 @@
 <div class="form-container">
   <h2>Registro de Negocio</h2>
+
   <form [formGroup]="businessForm" (ngSubmit)="onSubmit()">
 
     <label>
@@ -14,23 +15,43 @@
 
     <label>
       Ciudad:
-      <select formControlName="locationId">
+      <div *ngIf="loadingCities" class="city-loading">
+        <span class="loader"></span>
+        <small>Cargando ciudades...</small>
+      </div>
+      <select *ngIf="!loadingCities" formControlName="locationId">
         <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
       </select>
     </label>
 
-    <div>
-      <label>Categorías:</label>
-      <div *ngFor="let cat of categories">
-        <input
-          type="checkbox"
-          [value]="cat.id"
-          (change)="onCategoryChange($event, cat.id)"
-        />
-        {{ cat.name }}
-      </div>
+    <label>
+      Categorías:
+      <ng-multiselect-dropdown
+        [data]="categories"
+        formControlName="categories"
+        [settings]="dropdownSettings"
+        [ngModel]="businessForm.get('categories')?.value"
+        (onSelect)="onCategoryChange()"
+        (onDeSelect)="onCategoryChange()"
+        (onSelectAll)="onCategoryChange()"
+        (onDeSelectAll)="onCategoryChange()"
+      ></ng-multiselect-dropdown>
+
+    </label>
+
+
+    <div *ngIf="error" class="error-box">
+      {{ error }}
+      <span class="close-btn" (click)="error = null">✖</span>
     </div>
 
-    <button type="submit">Registrar</button>
+    <div *ngIf="success" class="success-box">
+      {{ success }}
+      <span class="close-btn" (click)="success = null">✖</span>
+    </div>
+
+    <div class="button-center">
+      <button type="submit">Registrar</button>
+    </div>
   </form>
 </div>

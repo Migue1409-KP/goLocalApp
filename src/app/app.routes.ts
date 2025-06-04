@@ -43,10 +43,10 @@ export const routes: Routes = [
         canActivate: [AdminAuthGuard]
     },
     {
-    path: 'register-business',
-    title: 'registrar-negocio',
-    component: RegisterBusinessComponent,
-    canActivate: [OwnerAuthGuard] // O la que prefieras, puedes omitir si es público
+        path: 'register-business',
+        title: 'registrar-negocio',
+        component: RegisterBusinessComponent,
+        canActivate: [OwnerAuthGuard] // O la que prefieras, puedes omitir si es público
     },
     {
         path: '**',
