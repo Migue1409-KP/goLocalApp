@@ -86,6 +86,11 @@ export const routes: Routes = [
     component: ProfileExperienceComponent
     },
     {
+        path: 'no-results',
+        title: 'Sin Resultados',
+        loadComponent: () => import('./shared/not-results/no-results.component').then(m => m.NoResultsComponent)
+    },
+    {
         path: '**',
         component: NotFoundComponent
     },

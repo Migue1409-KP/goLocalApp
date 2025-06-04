@@ -21,7 +21,11 @@ export class HomeComponent implements OnInit {
   states: any[] = [];
   categories: any[] = [];
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -34,7 +38,7 @@ export class HomeComponent implements OnInit {
     this.loadFilters();
   }
 
-  loadFilters() {
+  loadFilters(): void {
     this.http.get<any>('http://localhost:8080/api/v1/rest/cities').subscribe({
       next: res => this.cities = res,
       error: () => this.error = 'Error al cargar ciudades.'
@@ -51,7 +55,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onSearch() {
+  onSearch(): void {
     const { name, cityId, stateId, categoryId } = this.form.value;
 
     const params: string[] = [];
@@ -65,27 +69,32 @@ export class HomeComponent implements OnInit {
 
     this.loading = true;
     this.businesses = [];
+    this.error = null;
 
     this.http.get<any>(`http://localhost:8080/api/v1/rest/business/filter${query}`).subscribe({
       next: res => {
-        this.businesses = res.data || [];
         this.loading = false;
+        if (!res.data || res.data.length === 0) {
+          this.router.navigate(['/no-results']);
+        } else {
+          this.businesses = res.data;
+        }
       },
-      error: () => {
-        this.error = 'Error al buscar negocios.';
+      error: (err) => {
+        console.error('Error al buscar negocios.', err);
         this.loading = false;
+        this.router.navigate(['/no-results']);
       }
     });
   }
 
-  goToBusiness(id: string) {
+  goToBusiness(id: string): void {
     this.router.navigate(['/profileBussiness', id]);
   }
 
-  clearFilters() {
-  this.form.reset();           // Limpia el formulario
-  this.businesses = [];        // Limpia resultados
-  this.error = null;           // Limpia errores
-}
-
+  clearFilters(): void {
+    this.form.reset();
+    this.businesses = [];
+    this.error = null;
+  }
 }
