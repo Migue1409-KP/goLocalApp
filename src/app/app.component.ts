@@ -68,4 +68,7 @@ export class AppComponent implements OnInit {
     this.authorizedOwner = false;
     this.router.navigate(['/login']);
   }
+  redirectToRoutes(): void {
+    this.router.navigate(['routes']);
+  }
 }

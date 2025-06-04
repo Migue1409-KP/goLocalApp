@@ -9,6 +9,8 @@ import { RegisterComponent } from './users/register/register.component';
 import { LoginComponent } from './users/login/login.component';
 import { FavoritesComponent } from './users/favorites/favorites.component';
 import { PerfilComponent } from './users/perfil/perfil.component';
+import {ShowComponent} from './routes/show/show.component';
+import {DetailsComponent} from './routes/details/details.component';
 
 export const routes: Routes = [
     {
@@ -34,7 +36,20 @@ export const routes: Routes = [
         canActivate: [LoggedAuthGuard]
     },
     {
+      path: 'routes',
+      title: 'Rutas',
+      component: ShowComponent,
+      canActivate: [UserAuthGuard]
+    },
+    {
+        path: 'routes/:id',
+        title: 'Detalles de Ruta',
+        component: DetailsComponent,
+        canActivate: [UserAuthGuard]
+    },
+    {
         path: '**',
         component: NotFoundComponent
-    }
+    },
+
 ];

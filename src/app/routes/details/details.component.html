@@ -1,0 +1,105 @@
+<div class="container mt-4">
+  <!-- Loading State -->
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Cargando...</span>
+    </div>
+    <p class="mt-2">Cargando detalles de la ruta...</p>
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+
+  <!-- Route Details -->
+  <div *ngIf="!loading && !error && routeData" class="route-details">
+    <!-- Route Name -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div class="route-title">
+        <!-- Vista normal -->
+        <div *ngIf="!editMode && routeData?.name" class="h2">
+          {{ routeData.name }}
+          <button class="btn btn-sm btn-outline-primary ms-2" (click)="toggleEditMode()">
+            <i class="bi bi-pencil"></i>
+          </button>
+        </div>
+
+        <!-- Modo edición -->
+        <div *ngIf="editMode" class="d-flex gap-2 align-items-center">
+          <input type="text" class="form-control" [(ngModel)]="editedName" placeholder="Nombre de la ruta">
+          <button class="btn btn-primary" (click)="saveChanges()">Guardar</button>
+          <button class="btn btn-secondary" (click)="toggleEditMode()">Cancelar</button>
+        </div>
+      </div>
+
+      <!-- Botón eliminar -->
+      <button class="btn btn-danger" (click)="openDeleteModal()">
+        <i class="bi bi-trash"></i> Eliminar Ruta
+      </button>
+    </div>
+
+    <!-- Categorías -->
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Categorías</h5>
+        <div class="category-tags">
+          <span *ngIf="!routeData.category || routeData.category.length === 0" class="text-muted">
+            Sin categorías
+          </span>
+          <span *ngFor="let cat of routeData.category" class="category-tag">
+            {{ cat }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Experiencias -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Experiencias</h5>
+        <div *ngIf="!routeData.experience || routeData.experience.length === 0" class="text-muted">
+          Sin experiencias registradas
+        </div>
+        <ul *ngIf="routeData.experience?.length > 0" class="list-group">
+          <li *ngFor="let exp of routeData.experience; let i = index"
+              class="list-group-item d-flex justify-content-between align-items-center">
+            {{ exp }}
+            <button class="btn btn-sm btn-outline-danger" (click)="removeExperience(i)">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div *ngIf="showDeleteModal" class="modal fade show d-block" tabindex="-1" style="z-index: 1050;">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirmar eliminación</h5>
+          </div>
+          <div class="modal-body">
+            ¿Estás seguro de que deseas eliminar esta ruta? Esta acción no se puede deshacer.
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeDeleteModal()">Cancelar</button>
+            <button type="button" class="btn btn-danger" (click)="deleteRoute()">Eliminar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Backdrop -->
+    <div *ngIf="showDeleteModal" class="modal-backdrop fade show" style="z-index: 1040;"></div>
+  </div>
+</div>
+<div class="container mt-4">
+  <!-- Existing content -->
+
+  <!-- Message at the bottom if no name is found -->
+  <div *ngIf="!routeData?.name" class="alert alert-warning mt-4 text-center">
+    El nombre de la ruta no está disponible.
+  </div>
+</div>

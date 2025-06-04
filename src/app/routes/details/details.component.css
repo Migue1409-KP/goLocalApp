@@ -1,0 +1,62 @@
+/* details.component.css */
+.route-details {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.category-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.category-tag {
+  background: #e9ecef;
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.875rem;
+  color: #495057;
+}
+
+.modal {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.route-title {
+  flex: 1;
+}
+
+.route-title input {
+  max-width: 400px;
+}
+
+.list-group-item button {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.list-group-item:hover button {
+  opacity: 1;
+}
+.modal {
+  display: none;
+}
+
+.modal.show {
+  display: block;
+}
+
+.modal-backdrop {
+  display: none;
+}
+
+.modal-backdrop.show {
+  display: block;
+  opacity: 0.5;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.route-title .h2 {
+  font-size: 2rem !important;
+  font-weight: bold !important;
+  color: #000 !important;
+}
