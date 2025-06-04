@@ -1,0 +1,39 @@
+<main>
+  <div class="background">
+    <div class="shape circle"></div>
+    <div class="shape square"></div>
+    <div class="shape circle"></div>
+    <div class="shape square"></div>
+    <div class="shape circle"></div>
+  </div>
+
+  <section>
+    <h1>Negocios Disponibles</h1>
+
+    <div *ngIf="isLoading" class="spinner"></div>
+
+    <div *ngIf="!isLoading && businesses.length === 0" class="error-box">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      No se encontraron negocios disponibles.
+    </div>
+
+    <div class="business-list">
+      <div
+        class="business-card"
+        *ngFor="let business of businesses"
+        (click)="goToBusiness(business.id)"
+      >
+        <h2>{{ business.name }}</h2>
+        <p>{{ business.description }}</p>
+        <p><strong>Ubicación:</strong> {{ business.location.name }}, {{ business.location.state.name }}</p>
+
+        <div *ngIf="business.categories?.length > 0">
+          <p><strong>Categorías:</strong></p>
+          <ul>
+            <li *ngFor="let cat of business.categories">{{ cat.name }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

@@ -11,6 +11,7 @@ import { FavoritesComponent } from './users/favorites/favorites.component';
 import { PerfilComponent } from './users/perfil/perfil.component';
 import { AdminPanelComponent } from './admin/dashboard/admin-panel.component';
 import { RegisterBusinessComponent } from './business/register/register.component';
+import { BusinessListComponent } from './business/list/business-list.component';
 
 
 export const routes: Routes = [
@@ -44,9 +45,15 @@ export const routes: Routes = [
     },
     {
         path: 'register-business',
-        title: 'registrar-negocio',
+        title: 'Registrar negocio',
         component: RegisterBusinessComponent,
         canActivate: [OwnerAuthGuard] // O la que prefieras, puedes omitir si es público
+    },
+    {
+        path: 'list-business',
+        title: 'Listar Negocios',
+        component: BusinessListComponent,
+        // canActivate: [UserAuthGuard] // O la que prefieras, puedes omitir si es público
     },
     {
         path: '**',
