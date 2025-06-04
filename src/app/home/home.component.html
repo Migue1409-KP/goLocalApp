@@ -1,0 +1,50 @@
+<div class="hero">
+  <h1>GoLocal</h1>
+  <h2>¿A dónde te gustaría ir a explorar? 🌎</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSearch()" class="search-form">
+
+    <input type="text" formControlName="name" placeholder="Buscar por nombre..." />
+
+    <select formControlName="stateId">
+      <option value="">Departamento</option>
+      <option *ngFor="let s of states" [value]="s.id">{{ s.name }}</option>
+    </select>
+
+    <select formControlName="cityId">
+      <option value="">Ciudad</option>
+      <option *ngFor="let c of cities" [value]="c.id">{{ c.name }}</option>
+    </select>
+
+    <select formControlName="categoryId">
+      <option value="">Categoría</option>
+      <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+    </select>
+
+    <button type="submit">Buscar</button>
+    <button type="button" class="clear-button" (click)="clearFilters()">Limpiar filtros</button>
+
+  </form>
+</div>
+
+<div *ngIf="loading" class="spinner"></div>
+
+<div class="business-list" *ngIf="!loading && businesses.length">
+  <div
+    class="business-card"
+    *ngFor="let business of businesses"
+    (click)="goToBusiness(business.id)"
+  >
+    <h3>{{ business.name }}</h3>
+    <p>{{ business.description }}</p>
+    <p>📍 {{ business.location.name }}, {{ business.location.state.name }}</p>
+  </div>
+</div>
+
+<div *ngIf="!loading && businesses.length === 0 && form.touched" class="no-results">
+  No se encontraron negocios con esos filtros.
+</div>
+
+<div *ngIf="error" class="error-box">
+  {{ error }}
+</div>
