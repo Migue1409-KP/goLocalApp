@@ -184,10 +184,12 @@
 
     <div *ngIf="createMode === 'city'">
       <input type="text" [(ngModel)]="newCityName" placeholder="Nombre de la ciudad" />
-      <select [(ngModel)]="selectedStateId">
-        <option value="">Seleccione Departamento</option>
-        <option *ngFor="let s of states" [value]="s.id">{{ s.name }}</option>
-      </select>
+      <div class="custom-select-wrapper">
+        <select [(ngModel)]="selectedStateId">
+          <option value="">Seleccione Departamento</option>
+          <option *ngFor="let s of states" [value]="s.id">{{ s.name }}</option>
+        </select>
+      </div>
     </div>
 
     <div class="error" *ngIf="createError">{{ createError }}</div>

@@ -312,3 +312,29 @@ body.modal-open {
   font-size: 0.85rem;
   margin-bottom: 0.5rem;
 }
+
+/* Contenedor personalizado del select */
+.custom-select-wrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.custom-select-wrapper select {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-size: 0.95rem;
+  appearance: none; /* Oculta flecha nativa */
+  background-color: #f9f9f9;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%23007bff" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.2rem;
+}
+
+.custom-select-wrapper select:focus {
+  border-color: #007bff;
+  outline: none;
+}
