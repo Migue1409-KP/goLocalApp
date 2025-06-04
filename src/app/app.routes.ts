@@ -31,9 +31,9 @@ export const routes: Routes = [
         component: LoginComponent
     },
     {
-    path: 'home',
-    title: 'Inicio',
-    component: HomeComponent
+        path: 'home',
+        title: 'Inicio',
+        component: HomeComponent
     },
     {
         path: 'favorites',
@@ -71,19 +71,19 @@ export const routes: Routes = [
         component: ProfileBusinessComponent
     },
     {
-    path: 'register-experience',
-    title: 'Registrar experiencia',
-    component: RegisterExperienceComponent
+        path: 'register-experience',
+        title: 'Registrar experiencia',
+        component: RegisterExperienceComponent
     },
     {
-    path: 'list-experiences',
-    title: 'Experiencias disponibles',
-    component: ExperienceListComponent
+        path: 'list-experiences',
+        title: 'Experiencias disponibles',
+        component: ExperienceListComponent
     },
     {
-    path: 'profileExperience/:id',
-    title: 'Perfil de experiencia',
-    component: ProfileExperienceComponent
+        path: 'profileExperience/:id',
+        title: 'Perfil de experiencia',
+        component: ProfileExperienceComponent
     },
     {
         path: '**',
