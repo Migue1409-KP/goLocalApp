@@ -1,0 +1,35 @@
+.form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+}
+
+label {
+  display: block;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+input, textarea, select {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+button:hover {
+  background-color: #125aa2;
+}

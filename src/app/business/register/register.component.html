@@ -1,0 +1,36 @@
+<div class="form-container">
+  <h2>Registro de Negocio</h2>
+  <form [formGroup]="businessForm" (ngSubmit)="onSubmit()">
+
+    <label>
+      Nombre del Negocio:
+      <input formControlName="name" placeholder="Nombre" />
+    </label>
+
+    <label>
+      Descripción:
+      <textarea formControlName="description" placeholder="Descripción"></textarea>
+    </label>
+
+    <label>
+      Ciudad:
+      <select formControlName="locationId">
+        <option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</option>
+      </select>
+    </label>
+
+    <div>
+      <label>Categorías:</label>
+      <div *ngFor="let cat of categories">
+        <input
+          type="checkbox"
+          [value]="cat.id"
+          (change)="onCategoryChange($event, cat.id)"
+        />
+        {{ cat.name }}
+      </div>
+    </div>
+
+    <button type="submit">Registrar</button>
+  </form>
+</div>

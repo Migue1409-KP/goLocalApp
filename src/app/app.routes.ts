@@ -10,6 +10,8 @@ import { LoginComponent } from './users/login/login.component';
 import { FavoritesComponent } from './users/favorites/favorites.component';
 import { PerfilComponent } from './users/perfil/perfil.component';
 import { AdminPanelComponent } from './admin/dashboard/admin-panel.component';
+import { RegisterBusinessComponent } from './business/register/register.component';
+
 
 export const routes: Routes = [
     {
@@ -41,7 +43,14 @@ export const routes: Routes = [
         canActivate: [AdminAuthGuard]
     },
     {
+    path: 'register-business',
+    title: 'registrar-negocio',
+    component: RegisterBusinessComponent,
+    canActivate: [OwnerAuthGuard] // O la que prefieras, puedes omitir si es público
+    },
+    {
         path: '**',
         component: NotFoundComponent
-    }
+    },
+
 ];
