@@ -1,11 +1,18 @@
 <main class="admin-container">
   <h1>Panel de Administración</h1>
-<!-- <div style="text-align:center; margin:1rem; font-size:0.8rem;">
-  [debug] totalPages: {{ totalPages }} | currentPage: {{ currentPage }} | totalItems: {{ totalItems }}
-</div> -->
+
+  <!-- Botón Crear solo para categorías o ciudades -->
+  <div class="top-right" *ngIf="activeTab === 'categories' || activeTab === 'cities'">
+    <button class="btn btn-primary" (click)="openCreateModal(activeTab === 'categories' ? 'category' : 'city')">
+      <i class="fa-solid fa-plus"></i> Crear {{ activeTab === 'categories' ? 'Categoría' : 'Ciudad' }}
+    </button>
+  </div>
+
   <div class="tab-buttons">
     <button [class.active]="activeTab === 'users'" (click)="switchTab('users')">Usuarios</button>
     <button [class.active]="activeTab === 'businesses'" (click)="switchTab('businesses')">Negocios</button>
+    <button [class.active]="activeTab === 'categories'" (click)="switchTab('categories')">Categorías</button>
+    <button [class.active]="activeTab === 'cities'" (click)="switchTab('cities')">Ciudades</button>
   </div>
 
   <div *ngIf="isLoading" class="lazy-spinner">
@@ -93,6 +100,66 @@
       <i class="fa-solid fa-angle-right"></i>
     </button>
   </div>
+
+  <!-- Tabla de categorías -->
+  <table *ngIf="activeTab === 'categories' && !isLoading" class="data-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cat of pagedCategories">
+        <td>{{ cat.name }}</td>
+        <td>
+          <button class="icon-btn" (click)="promptDelete(cat.id)">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination" *ngIf="activeTab === 'categories' && !isLoading && categoryTotalPages > 1">
+    <button (click)="goToPage(categoryCurrentPage - 1)" [disabled]="categoryCurrentPage === 0">
+      <i class="fa-solid fa-angle-left"></i>
+    </button>
+    <span>Página {{ categoryCurrentPage + 1 }} de {{ categoryTotalPages }}</span>
+    <button (click)="goToPage(categoryCurrentPage + 1)" [disabled]="categoryCurrentPage + 1 >= categoryTotalPages">
+      <i class="fa-solid fa-angle-right"></i>
+    </button>
+  </div>
+
+  <!-- Tabla de ciudades -->
+  <table *ngIf="activeTab === 'cities' && !isLoading" class="data-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Departamento</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let city of pagedCities">
+        <td>{{ city.name }}</td>
+        <td>{{ city.state?.name }}</td>
+        <td>
+          <button class="icon-btn" (click)="promptDelete(city.id)">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination" *ngIf="activeTab === 'cities' && !isLoading && cityTotalPages > 1">
+    <button (click)="goToPage(cityCurrentPage - 1)" [disabled]="cityCurrentPage === 0">
+      <i class="fa-solid fa-angle-left"></i>
+    </button>
+    <span>Página {{ cityCurrentPage + 1 }} de {{ cityTotalPages }}</span>
+    <button (click)="goToPage(cityCurrentPage + 1)" [disabled]="cityCurrentPage + 1 >= cityTotalPages">
+      <i class="fa-solid fa-angle-right"></i>
+    </button>
+  </div>
 </main>
 <!-- Modal de confirmación - DEBE estar FUERA del <main> -->
 <div *ngIf="showConfirmModal" class="modal-overlay">
@@ -102,6 +169,35 @@
     <div class="modal-actions">
       <button class="btn btn-secondary" (click)="cancelDelete()">Cancelar</button>
       <button class="btn btn-danger" (click)="confirmDelete()">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de creación de categorías o ciudades -->
+<div *ngIf="showCreateModal" class="modal-overlay">
+  <div class="modal-content">
+    <h2>Crear {{ createMode === 'category' ? 'Categoría' : 'Ciudad' }}</h2>
+
+    <div *ngIf="createMode === 'category'">
+      <input type="text" [(ngModel)]="newCategoryName" placeholder="Nombre de la categoría" />
+    </div>
+
+    <div *ngIf="createMode === 'city'">
+      <input type="text" [(ngModel)]="newCityName" placeholder="Nombre de la ciudad" />
+      <div class="custom-select-wrapper">
+        <select [(ngModel)]="selectedStateId">
+          <option value="">Seleccione Departamento</option>
+          <option *ngFor="let s of states" [value]="s.id">{{ s.name }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="error" *ngIf="createError">{{ createError }}</div>
+    <div class="success-box" *ngIf="createSuccess">{{ createSuccess }}</div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" (click)="closeCreateModal()">Cancelar</button>
+      <button class="btn btn-primary" (click)="submitCreate()">Crear</button>
     </div>
   </div>
 </div>

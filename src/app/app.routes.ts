@@ -19,8 +19,15 @@ import {ProfileBusinessComponent} from './business/profile/profile-business.comp
 import {RegisterExperienceComponent} from './experience/register/register-experience.component';
 import {ExperienceListComponent} from './experience/list/experience-list.component';
 import {ProfileExperienceComponent} from './experience/profile/profile-experience.component';
+import { MainDashboardComponent } from './dashboard/main-dashboard.component';
+
 
 export const routes: Routes = [
+    {
+        path: '',
+        title: 'GoLocal',
+        component: MainDashboardComponent
+    },
     {
         path: 'register',
         title: 'Crear Cuenta',
@@ -32,9 +39,10 @@ export const routes: Routes = [
         component: LoginComponent
     },
     {
-    path: 'home',
-    title: 'Inicio',
-    component: HomeComponent
+        path: 'home',
+        title: 'Inicio',
+        component: HomeComponent,
+        canActivate: [LoggedAuthGuard]
     },
     {
         path: 'favorites',
@@ -70,33 +78,37 @@ export const routes: Routes = [
         path: 'register-business',
         title: 'Registrar negocio',
         component: RegisterBusinessComponent,
-        canActivate: [OwnerAuthGuard] // O la que prefieras, puedes omitir si es público
+        canActivate: [OwnerAuthGuard]
     },
     {
         path: 'list-business',
         title: 'Listar Negocios',
         component: BusinessListComponent,
-        // canActivate: [UserAuthGuard] // O la que prefieras, puedes omitir si es público
+        canActivate: [LoggedAuthGuard]
     },
     {
         path: 'profileBussiness/:id',
         title: 'Perfil de Negocio',
-        component: ProfileBusinessComponent
+        component: ProfileBusinessComponent,
+        canActivate: [LoggedAuthGuard]
     },
     {
-    path: 'register-experience',
-    title: 'Registrar experiencia',
-    component: RegisterExperienceComponent
+        path: 'register-experience',
+        title: 'Registrar experiencia',
+        component: RegisterExperienceComponent,
+        canActivate: [OwnerAuthGuard]
     },
     {
-    path: 'list-experiences',
-    title: 'Experiencias disponibles',
-    component: ExperienceListComponent
+        path: 'list-experiences',
+        title: 'Experiencias disponibles',
+        component: ExperienceListComponent,
+        canActivate: [LoggedAuthGuard]
     },
     {
-    path: 'profileExperience/:id',
-    title: 'Perfil de experiencia',
-    component: ProfileExperienceComponent
+        path: 'profileExperience/:id',
+        title: 'Perfil de experiencia',
+        component: ProfileExperienceComponent,
+        canActivate: [LoggedAuthGuard]
     },
     {
         path: 'no-results',

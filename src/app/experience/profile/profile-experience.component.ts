@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReviewsService } from '../../services/reviews.service';
+import { AuthService } from '../../services/auth.service'; // Added AuthService import
 
 @Component({
   selector: 'app-profile-experience',
@@ -16,7 +17,10 @@ export class ProfileExperienceComponent implements OnInit {
   experience: any = null;
   categoryName: string = '';
   businessName: string = '';
+  businessId: string = ''; // Added from second version
   loading: boolean = true;
+  
+  // Reviews related properties
   reviews: any[] = [];
   averageRating: number = 0;
   newReview = {
@@ -25,17 +29,27 @@ export class ProfileExperienceComponent implements OnInit {
   };
   submittingReview = false;
 
+  // Favorites related properties
+  userId: string = '';
+  isFavorited: boolean = false;
+  favoriteId: string | null = null;
+
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private reviewsService: ReviewsService
+    private reviewsService: ReviewsService,
+    private auth: AuthService, // Added from second version
+    private router: Router // Added from second version
   ) {}
 
   ngOnInit(): void {
     const experienceId = this.route.snapshot.paramMap.get('id');
+    this.userId = this.auth.getId(); // Get userId from AuthService
+    
     if (experienceId) {
       this.loadExperienceDetails(experienceId);
       this.loadReviews(experienceId);
+      this.checkFavorite(experienceId); // Added from second version
     }
   }
 
@@ -56,7 +70,8 @@ export class ProfileExperienceComponent implements OnInit {
   private loadBusinessName(): void {
     this.http.get<any>(`http://localhost:8080/api/v1/rest/business/${this.experience.businessId}`).subscribe({
       next: (res) => {
-        this.businessName = res.data[0].name;
+        this.businessName = res.data[0]?.name ?? 'Desconocido';
+        this.businessId = res.data[0]?.id ?? ''; // Added from second version
       },
       error: () => {
         this.businessName = 'Negocio no encontrado';
@@ -67,7 +82,7 @@ export class ProfileExperienceComponent implements OnInit {
   private loadCategoryName(): void {
     this.http.get<any>(`http://localhost:8080/api/v1/rest/category/${this.experience.categoryId}`).subscribe({
       next: (res) => {
-        this.categoryName = res.data[0].name;
+        this.categoryName = res.data[0]?.name ?? 'Desconocida';
       },
       error: () => {
         this.categoryName = 'Categoría no encontrada';
@@ -75,6 +90,7 @@ export class ProfileExperienceComponent implements OnInit {
     });
   }
 
+  // Reviews functionality
   private loadReviews(experienceId: string): void {
     this.reviewsService.getReviewsByExperienceId(experienceId).subscribe({
       next: (reviews) => {
@@ -98,55 +114,32 @@ export class ProfileExperienceComponent implements OnInit {
     this.newReview.rating = rating;
   }
 
-  private getCurrentUserId(): string | null {
-    const userData = localStorage.getItem('userData');
-    if (!userData) return null;
-    try {
-      const user = JSON.parse(userData);
-      return user.id;
-    } catch {
-      return null;
-    }
-  }
-
   submitReview(): void {
-    console.log('Submit clicked', this.newReview); // Debug log
-
     if (!this.newReview.rating || !this.newReview.description.trim()) {
-      console.log('Validation failed', { // Debug log
-        rating: this.newReview.rating,
-        description: this.newReview.description
-      });
       return;
     }
 
-    const userId = this.getCurrentUserId();
-    if (!userId) {
-      console.log('No user ID found'); // Debug log
+    if (!this.userId) {
       alert('Debes iniciar sesión para dejar una review');
       return;
     }
 
     this.submittingReview = true;
     const reviewData = {
-      userId: userId,
+      userId: this.userId,
       rating: this.newReview.rating,
       description: this.newReview.description.trim(),
       experienceId: this.experience.id,
       routeId: null
     };
 
-    console.log('Sending review data:', reviewData); // Debug log
-
     this.reviewsService.createReview(reviewData).subscribe({
-      next: (response) => {
-        console.log('Review created successfully', response); // Debug log
+      next: () => {
         this.loadReviews(this.experience.id);
         this.newReview = { rating: 0, description: '' };
         this.submittingReview = false;
       },
-      error: (error) => {
-        console.error('Error submitting review:', error); // Debug log
+      error: () => {
         this.submittingReview = false;
         alert('Error al enviar la review');
       }
@@ -158,5 +151,55 @@ export class ProfileExperienceComponent implements OnInit {
       if (index + 0.5 === Math.floor(rating + 0.5)) return 0.5;
       return index < rating ? 1 : 0;
     });
+  }
+
+  // Favorites functionality from second version
+  checkFavorite(expId: string) {
+    this.http.get<any>(`http://localhost:8080/api/v1/rest/favorites/user/${this.userId}`).subscribe({
+      next: (res) => {
+        const match = res.data.find((f: any) => f.experience.id === expId);
+        if (match) {
+          this.isFavorited = true;
+          this.favoriteId = match.id;
+        }
+      },
+      error: (err) => console.error('❌ Error al verificar favorito', err)
+    });
+  }
+
+  toggleFavorite() {
+    if (!this.experience?.id) return;
+
+    const expId = this.experience.id;
+
+    if (this.isFavorited && this.favoriteId) {
+      this.http.delete(`http://localhost:8080/api/v1/rest/favorites/${this.favoriteId}`).subscribe({
+        next: () => {
+          this.isFavorited = false;
+          this.favoriteId = null;
+        },
+        error: err => console.error('❌ Error al eliminar favorito', err)
+      });
+    } else {
+      const payload = {
+        userId: this.userId,
+        experienceId: expId
+      };
+      this.http.post<any>('http://localhost:8080/api/v1/rest/favorites', payload).subscribe({
+        next: (res) => {
+          if (res.status === 'CREATED') {
+            this.isFavorited = true;
+            this.favoriteId = res.data[0].id;
+          }
+        },
+        error: err => console.error('❌ Error al agregar favorito', err)
+      });
+    }
+  }
+
+  goToBusiness() {
+    if (this.businessId) {
+      this.router.navigate(['/profileBussiness', this.businessId]);
+    }
   }
 }

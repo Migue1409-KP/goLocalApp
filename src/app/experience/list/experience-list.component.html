@@ -7,11 +7,22 @@
     <div 
       *ngFor="let exp of experiences" 
       class="experience-card"
-      (click)="goToExperience(exp.id)"
     >
-      <h2>{{ exp.name }}</h2>
-      <p class="description">{{ exp.description }}</p>
-      <p class="price">💰 {{ exp.price | currency:'COP':'symbol':'1.0-0' }}</p>
+      <div class="card-header">
+        <h2 (click)="goToExperience(exp.id)">{{ exp.name }}</h2>
+        <button class="heart-btn" (click)="toggleFavorite(exp.id)">
+          <i 
+            class="fa-heart" 
+            [class.far]="!isFavorited(exp.id)" 
+            [class.fas]="isFavorited(exp.id)"
+            [class.favorited]="isFavorited(exp.id)"
+          ></i>
+        </button>
+      </div>
+      <p class="description" (click)="goToExperience(exp.id)">{{ exp.description }}</p>
+      <p class="price" (click)="goToExperience(exp.id)">
+        💰 {{ exp.price | currency:'COP':'symbol':'1.0-0' }}
+      </p>
     </div>
   </div>
 </main>
