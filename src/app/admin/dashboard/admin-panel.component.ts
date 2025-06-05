@@ -23,7 +23,7 @@ export class AdminPanelComponent implements OnInit {
   error: string | null = null;
 
   // Paginación
-  pageSize = 10;
+  pageSize = 9;
 
   userCurrentPage = 0;
   userTotalItems = 0;
