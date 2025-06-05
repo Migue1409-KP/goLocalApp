@@ -291,7 +291,7 @@ export class AdminPanelComponent implements OnInit {
 
       this.http.post('http://localhost:8080/api/v1/rest/cities', {
         name: this.newCityName.trim(),
-        state: this.selectedStateId
+        stateId: this.selectedStateId
       }).subscribe({
         next: (res: any) => {
           this.createSuccess = res.message || 'Ciudad creada.';
