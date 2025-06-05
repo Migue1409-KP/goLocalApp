@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
   standalone: true,
   templateUrl: './profile-business.component.html',
   styleUrls: ['./profile-business.component.css'],
-  imports: [CommonModule, RouterModule]
+  imports: [CommonModule, RouterModule, ReactiveFormsModule]
 })
 export class ProfileBusinessComponent implements OnInit {
   business: any = null;
