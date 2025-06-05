@@ -3,13 +3,28 @@
 </div>
 
 <div *ngIf="experience && !loading" class="experience-profile">
-  <h1>{{ experience.name }}</h1>
+  <div class="title-row">
+    <h1>{{ experience.name }}</h1>
+    <button class="heart-btn" (click)="toggleFavorite()">
+      <i 
+        class="fa-heart" 
+        [class.far]="!isFavorited" 
+        [class.fas]="isFavorited" 
+        [class.favorited]="isFavorited"
+      ></i>
+    </button>
+  </div>
 
   <p class="description">{{ experience.description }}</p>
 
   <div class="meta-data">
     <p class="price">💰 Precio: {{ experience.price | currency:'COP':'symbol' }}</p>
     <p class="category">🏷️ Categoría: <strong>{{ categoryName }}</strong></p>
-    <p class="business">🏢 Negocio: <strong>{{ businessName }}</strong></p>
+    <p class="business">
+      🏢 Negocio: 
+      <strong>
+        <a (click)="goToBusiness()" class="business-link">{{ businessName }}</a>
+      </strong>
+    </p>
   </div>
 </div>

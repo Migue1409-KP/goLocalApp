@@ -68,3 +68,41 @@
     transform: rotate(360deg);
   }
 }
+
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.heart-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.6rem;
+  color: #aaa;
+  transition: transform 0.2s;
+}
+
+.heart-btn:hover {
+  transform: scale(1.1);
+}
+
+.favorited {
+  color: #e53935 !important;
+}
+
+.fas.fa-heart {
+  color: #e53935;
+}
+
+.business-link {
+  color: #0277bd;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+
+.business-link:hover {
+  color: #01579b;
+}
