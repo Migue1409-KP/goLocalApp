@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'app-register-experience',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HttpClientModule, RouterModule, NgMultiSelectDropDownModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule, NgMultiSelectDropDownModule],
   templateUrl: './register-experience.component.html',
   styleUrls: ['./register-experience.component.css']
 })

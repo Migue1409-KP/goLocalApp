@@ -72,7 +72,7 @@
 
       <button class="btn btn-primary"
               (click)="submitReview()"
-              [disabled]="submittingReview || !newReview.rating || !newReview.description?.trim()">
+              [disabled]="submittingReview || !newReview.rating || !newReview.description.trim()">
         {{ submittingReview ? 'Enviando...' : 'Publicar Review' }}
       </button>
     </div>
