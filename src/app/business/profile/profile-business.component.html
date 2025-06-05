@@ -1,16 +1,49 @@
 <div class="business-profile-container">
   <!-- Botón lateral izquierdo -->
-  <div class="sidebar-button">
+  <div class="sidebar-button" *ngIf="isOwner && !isEditing">
     <button class="cta-button" (click)="goToRegisterExperience()">
       ➕ Registrar experiencia
     </button>
   </div>
 
-  <!-- Bloque principal del perfil del negocio -->
+  <!-- Bloque principal -->
   <section *ngIf="!isLoading && business">
-    <h1>{{ business.name }}</h1>
-    <p>{{ business.description }}</p>
-    <p><strong>📍 Ubicación:</strong> {{ business.location.name }}, {{ business.location.state.name }}</p>
+    <div class="title-actions">
+      <h1 *ngIf="!isEditing">{{ business.name }}</h1>
+      <form *ngIf="isEditing" [formGroup]="editForm">
+        <input formControlName="name" placeholder="Nombre del negocio" />
+      </form>
+
+      <div class="owner-actions" *ngIf="isOwner && !isEditing">
+        <button class="icon-button" (click)="enableEdit()" title="Editar">
+          <i class="fa-solid fa-pen"></i>
+        </button>
+        <button class="icon-button delete" (click)="showConfirmationModal = true" title="Eliminar">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </div>
+    </div>
+
+    <ng-container *ngIf="!isEditing; else editFormBlock">
+      <p>{{ business.description }}</p>
+      <p><strong>📍 Ubicación:</strong> {{ business.location.name }}, {{ business.location.state.name }}</p>
+    </ng-container>
+
+    <ng-template #editFormBlock>
+      <form [formGroup]="editForm">
+        <textarea formControlName="description" rows="3" placeholder="Descripción del negocio"></textarea>
+        <input formControlName="location" placeholder="Ubicación" />
+
+        <div class="edit-buttons">
+          <button class="cta-button" type="button" (click)="saveChanges()">
+            <i class="fa-solid fa-floppy-disk"></i> Guardar
+          </button>
+          <button class="cta-button cancel" type="button" (click)="cancelEdit()">
+            <i class="fa-solid fa-xmark"></i> Cancelar
+          </button>
+        </div>
+      </form>
+    </ng-template>
 
     <div *ngIf="business.categories.length > 0">
       <p><strong>Categorías:</strong></p>
@@ -21,7 +54,6 @@
 
     <div *ngIf="business.experiences.length > 0">
       <p style="margin-top: 2rem;"><strong>🧪 Experiencias disponibles:</strong></p>
-
       <div
         *ngFor="let exp of business.experiences"
         class="experience-card"
@@ -40,11 +72,23 @@
     </div>
   </section>
 
-  <!-- Cargando -->
+  <!-- Spinner -->
   <div *ngIf="isLoading" class="spinner"></div>
 
   <!-- Error -->
   <div *ngIf="errorMessage" class="error-box">
     <i class="fa-solid fa-circle-exclamation"></i> {{ errorMessage }}
+  </div>
+
+  <!-- Modal de confirmación -->
+  <div class="modal-overlay" *ngIf="showConfirmationModal">
+    <div class="modal-box">
+      <h3>¿Estás seguro de eliminar este negocio?</h3>
+      <p>Esta acción no se puede deshacer.</p>
+      <div class="modal-buttons">
+        <button class="cta-button delete" (click)="confirmDelete()">Eliminar</button>
+        <button class="cta-button cancel" (click)="showConfirmationModal = false">Cancelar</button>
+      </div>
+    </div>
   </div>
 </div>
