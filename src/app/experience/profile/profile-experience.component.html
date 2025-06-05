@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <div *ngIf="loading" class="spinner-container">
   <div class="spinner"></div>
 </div>
@@ -5,11 +6,82 @@
 <div *ngIf="experience && !loading" class="experience-profile">
   <h1>{{ experience.name }}</h1>
 
+  <!-- Average Rating Display -->
+  <div class="rating-summary" *ngIf="reviews.length > 0">
+    <div class="stars">
+      <span *ngFor="let star of getStarsArray(averageRating)" class="star">
+        <i [class]="star === 1 ? 'fas fa-star' : (star === 0.5 ? 'fas fa-star-half-alt' : 'far fa-star')"></i>
+      </span>
+    </div>
+    <span class="rating-value">{{ averageRating | number:'1.1-1' }}</span>
+    <span class="reviews-count">({{ reviews.length }} reviews)</span>
+  </div>
+
   <p class="description">{{ experience.description }}</p>
 
   <div class="meta-data">
     <p class="price">💰 Precio: {{ experience.price | currency:'COP':'symbol' }}</p>
     <p class="category">🏷️ Categoría: <strong>{{ categoryName }}</strong></p>
     <p class="business">🏢 Negocio: <strong>{{ businessName }}</strong></p>
+  </div>
+
+  <!-- Reviews Section -->
+  <div class="reviews-section">
+    <h2>Reviews</h2>
+
+    <div class="create-review">
+      <div class="review-header">
+        <h3>Escribir una review</h3>
+        <div class="numeric-rating">
+          <span class="rating-label">Calificación:</span>
+          <div class="rating-numbers">
+        <span *ngFor="let num of [1,2,3,4,5]"
+              (click)="setRating(num)"
+              [class.selected]="newReview.rating === num"
+              class="rating-number">
+          {{num}}
+        </span>
+          </div>
+        </div>
+      </div>
+
+      <textarea [(ngModel)]="newReview.description"
+                placeholder="Comparte tu experiencia..."
+                rows="4"
+                maxlength="250"
+                class="form-control fixed-textarea"></textarea>
+      <div class="char-counter">
+        {{newReview.description.length}}/250 caracteres
+      </div>
+
+      <button class="btn btn-primary"
+              (click)="submitReview()"
+              [disabled]="submittingReview || !newReview.rating || !newReview.description?.trim()">
+        {{ submittingReview ? 'Enviando...' : 'Publicar Review' }}
+      </button>
+    </div>
+
+    <!-- Reviews List -->
+    <div class="reviews-list" *ngIf="reviews.length > 0">
+      <div *ngFor="let review of reviews" class="review-card">
+        <div class="review-header">
+          <div class="stars">
+            <span *ngFor="let star of getStarsArray(review.rating)" class="star">
+              <i [class]="star === 1 ? 'bi bi-star-fill' : (star === 0.5 ? 'bi bi-star-half' : 'bi bi-star')"></i>
+            </span>
+          </div>
+          <span class="rating-value">{{ review.rating | number:'1.1-1' }}</span>
+        </div>
+        <p class="review-text">{{ review.description }}</p>
+        <div class="review-meta">
+          <span class="date">{{ review.createdAt | date:'mediumDate' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Reviews Message -->
+    <div *ngIf="!reviews.length" class="no-reviews">
+      <p>No hay reviews todavía. ¡Sé el primero en compartir tu experiencia!</p>
+    </div>
   </div>
 </div>

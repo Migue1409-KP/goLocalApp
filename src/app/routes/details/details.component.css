@@ -19,6 +19,7 @@
 }
 
 .modal {
+  position: fixed !important;
   background-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -37,9 +38,6 @@
 
 .list-group-item:hover button {
   opacity: 1;
-}
-.modal {
-  display: none;
 }
 
 .modal.show {
