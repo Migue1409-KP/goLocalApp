@@ -39,7 +39,8 @@ export const routes: Routes = [
     {
         path: 'home',
         title: 'Inicio',
-        component: HomeComponent
+        component: HomeComponent,
+        canActivate: [LoggedAuthGuard]
     },
     {
         path: 'favorites',
@@ -63,33 +64,37 @@ export const routes: Routes = [
         path: 'register-business',
         title: 'Registrar negocio',
         component: RegisterBusinessComponent,
-        canActivate: [OwnerAuthGuard] // O la que prefieras, puedes omitir si es público
+        canActivate: [OwnerAuthGuard]
     },
     {
         path: 'list-business',
         title: 'Listar Negocios',
         component: BusinessListComponent,
-        // canActivate: [UserAuthGuard] // O la que prefieras, puedes omitir si es público
+        canActivate: [LoggedAuthGuard]
     },
     {
         path: 'profileBussiness/:id',
         title: 'Perfil de Negocio',
-        component: ProfileBusinessComponent
+        component: ProfileBusinessComponent,
+        canActivate: [LoggedAuthGuard]
     },
     {
         path: 'register-experience',
         title: 'Registrar experiencia',
-        component: RegisterExperienceComponent
+        component: RegisterExperienceComponent,
+        canActivate: [OwnerAuthGuard]
     },
     {
         path: 'list-experiences',
         title: 'Experiencias disponibles',
-        component: ExperienceListComponent
+        component: ExperienceListComponent,
+        canActivate: [LoggedAuthGuard]
     },
     {
         path: 'profileExperience/:id',
         title: 'Perfil de experiencia',
-        component: ProfileExperienceComponent
+        component: ProfileExperienceComponent,
+        canActivate: [LoggedAuthGuard]
     },
     {
         path: '**',
