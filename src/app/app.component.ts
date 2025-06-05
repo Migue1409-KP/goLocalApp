@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AppComponent implements OnInit {
 
-  title = 'seguroschepito';
+  title = 'GoLocal';
   isLoggedIn: boolean = false;
   authorizedAdmin: boolean = false;
   authorizedUser: boolean = false;
