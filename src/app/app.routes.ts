@@ -26,7 +26,8 @@ export const routes: Routes = [
     {
         path: '',
         title: 'GoLocal',
-        component: MainDashboardComponent
+        component: MainDashboardComponent,
+        canActivate: [LoggedAuthGuard]
     },
     {
         path: 'register',
