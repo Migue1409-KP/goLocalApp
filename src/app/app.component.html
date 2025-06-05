@@ -8,7 +8,7 @@
         <div class="dropdown-menu">
           <button *ngIf="authorizedUser"  (click)="redirectToFavorites()">Mis Favoritos</button>
           <button *ngIf="authorizedUser"  (click)="redirectToRoutes()">Mis Rutas</button>
-          <button *ngIf="authorizedUser"  (click)="redirectToPerfil()">Mi perfil</button>
+          <button *ngIf="isLoggedIn"  (click)="redirectToPerfil()">Mi perfil</button>
           <button *ngIf="authorizedAdmin"  (click)="redirectToAdmin()">Panel de admin</button>
           <button (click)="logout()">Cerrar Sesión</button>
         </div>
