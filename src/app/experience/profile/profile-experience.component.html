@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+
 <div *ngIf="loading" class="spinner-container">
   <div class="spinner"></div>
 </div>
@@ -8,15 +9,15 @@
     <h1>{{ experience.name }}</h1>
     <button class="heart-btn" (click)="toggleFavorite()">
       <i 
-        class="fa-heart" 
-        [class.far]="!isFavorited" 
-        [class.fas]="isFavorited" 
+        class="fa-heart"
+        [class.far]="!isFavorited"
+        [class.fas]="isFavorited"
         [class.favorited]="isFavorited"
       ></i>
     </button>
   </div>
 
-  <!-- Average Rating Display -->
+  <!-- Rating Summary -->
   <div class="rating-summary" *ngIf="reviews.length > 0">
     <div class="stars">
       <span *ngFor="let star of getStarsArray(averageRating)" class="star">
@@ -50,12 +51,12 @@
         <div class="numeric-rating">
           <span class="rating-label">Calificación:</span>
           <div class="rating-numbers">
-        <span *ngFor="let num of [1,2,3,4,5]"
-              (click)="setRating(num)"
-              [class.selected]="newReview.rating === num"
-              class="rating-number">
-          {{num}}
-        </span>
+            <span *ngFor="let num of [1,2,3,4,5]"
+                  (click)="setRating(num)"
+                  [class.selected]="newReview.rating === num"
+                  class="rating-number">
+              {{num}}
+            </span>
           </div>
         </div>
       </div>
@@ -76,13 +77,12 @@
       </button>
     </div>
 
-    <!-- Reviews List -->
     <div class="reviews-list" *ngIf="reviews.length > 0">
       <div *ngFor="let review of reviews" class="review-card">
         <div class="review-header">
           <div class="stars">
             <span *ngFor="let star of getStarsArray(review.rating)" class="star">
-              <i [class]="star === 1 ? 'bi bi-star-fill' : (star === 0.5 ? 'bi bi-star-half' : 'bi bi-star')"></i>
+              <i [class]="star === 1 ? 'fas fa-star' : (star === 0.5 ? 'fas fa-star-half-alt' : 'far fa-star')"></i>
             </span>
           </div>
           <span class="rating-value">{{ review.rating | number:'1.1-1' }}</span>
@@ -94,7 +94,6 @@
       </div>
     </div>
 
-    <!-- No Reviews Message -->
     <div *ngIf="!reviews.length" class="no-reviews">
       <p>No hay reviews todavía. ¡Sé el primero en compartir tu experiencia!</p>
     </div>
