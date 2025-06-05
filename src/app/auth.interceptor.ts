@@ -3,7 +3,6 @@ import { inject } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
-import { url } from 'inspector';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
@@ -13,8 +12,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = authService.getToken();
   const noAuthUrls = [
     '/api/v1/rest/users',
-    '/api/v1/rest/authentication/login',
-
+    '/api/v1/rest/authentication/login'
   ];
 
   // Si no es una URL que no requiere autenticación o no es un POST, agregar el token
