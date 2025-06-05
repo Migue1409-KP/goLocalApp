@@ -4,7 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReviewsService } from '../../services/reviews.service';
-import { AuthService } from '../../services/auth.service'; // Added AuthService import
+import { AuthService } from '../../services/auth.service';
+import { RoutesService } from '../../services/routes.services';
 
 @Component({
   selector: 'app-profile-experience',
@@ -17,9 +18,9 @@ export class ProfileExperienceComponent implements OnInit {
   experience: any = null;
   categoryName: string = '';
   businessName: string = '';
-  businessId: string = ''; // Added from second version
+  businessId: string = '';
   loading: boolean = true;
-  
+
   // Reviews related properties
   reviews: any[] = [];
   averageRating: number = 0;
@@ -34,22 +35,33 @@ export class ProfileExperienceComponent implements OnInit {
   isFavorited: boolean = false;
   favoriteId: string | null = null;
 
+  // Routes related properties
+  showRouteMenu = false;
+  userRoutes: any[] = [];
+  loadingRoutes = false;
+  processingRouteUpdates: { [key: string]: boolean } = {};
+
+  get processingAnyRoute(): boolean {
+    return Object.values(this.processingRouteUpdates).some(value => value);
+  }
+
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
     private reviewsService: ReviewsService,
-    private auth: AuthService, // Added from second version
-    private router: Router // Added from second version
+    private auth: AuthService,
+    private router: Router,
+    private routesService: RoutesService
   ) {}
 
   ngOnInit(): void {
     const experienceId = this.route.snapshot.paramMap.get('id');
-    this.userId = this.auth.getId(); // Get userId from AuthService
-    
+    this.userId = this.auth.getId();
+
     if (experienceId) {
       this.loadExperienceDetails(experienceId);
       this.loadReviews(experienceId);
-      this.checkFavorite(experienceId); // Added from second version
+      this.checkFavorite(experienceId);
     }
   }
 
@@ -71,7 +83,7 @@ export class ProfileExperienceComponent implements OnInit {
     this.http.get<any>(`http://localhost:8080/api/v1/rest/business/${this.experience.businessId}`).subscribe({
       next: (res) => {
         this.businessName = res.data[0]?.name ?? 'Desconocido';
-        this.businessId = res.data[0]?.id ?? ''; // Added from second version
+        this.businessId = res.data[0]?.id ?? '';
       },
       error: () => {
         this.businessName = 'Negocio no encontrado';
@@ -90,7 +102,6 @@ export class ProfileExperienceComponent implements OnInit {
     });
   }
 
-  // Reviews functionality
   private loadReviews(experienceId: string): void {
     this.reviewsService.getReviewsByExperienceId(experienceId).subscribe({
       next: (reviews) => {
@@ -153,7 +164,6 @@ export class ProfileExperienceComponent implements OnInit {
     });
   }
 
-  // Favorites functionality from second version
   checkFavorite(expId: string) {
     this.http.get<any>(`http://localhost:8080/api/v1/rest/favorites/user/${this.userId}`).subscribe({
       next: (res) => {
@@ -201,5 +211,75 @@ export class ProfileExperienceComponent implements OnInit {
     if (this.businessId) {
       this.router.navigate(['/profileBussiness', this.businessId]);
     }
+  }
+
+  toggleRouteMenu(): void {
+    this.showRouteMenu = !this.showRouteMenu;
+    if (this.showRouteMenu && !this.userRoutes.length) {
+      this.loadUserRoutes();
+    }
+  }
+
+  private loadUserRoutes(): void {
+    this.loadingRoutes = true;
+    this.routesService.getRoutesByUserId(this.userId).subscribe({
+      next: (response) => {
+        this.userRoutes = response;
+        this.loadingRoutes = false;
+      },
+      error: (error) => {
+        console.error('Error loading routes:', error);
+        this.loadingRoutes = false;
+      }
+    });
+  }
+
+  addToRoute(route: any): void {
+    if (!this.experience || this.processingAnyRoute) return;
+
+    this.processingRouteUpdates[route.id] = true;
+
+    if (route.experience?.some((exp: any) => exp.id === this.experience.id)) {
+      this.processingRouteUpdates[route.id] = false;
+      return;
+    }
+
+    const updatedExperiences = [
+      ...(route.experience || []),
+      { id: this.experience.id }
+    ];
+
+    const experienceCategory = { id: this.experience.categoryId };
+    const updatedCategories = [
+      ...(route.category || []),
+      experienceCategory
+    ];
+
+    const updatedRoute = {
+      id: route.id,
+      name: route.name,
+      user: route.user,
+      category: updatedCategories,
+      experience: updatedExperiences,
+      createdAt: route.createdAt,
+      updatedAt: route.updatedAt
+    };
+
+    this.routesService.updateRoute(route.id, updatedRoute).subscribe({
+      next: () => {
+        this.showRouteMenu = false;
+
+        this.loadUserRoutes();
+        this.processingRouteUpdates[route.id] = false;
+      },
+      error: (error) => {
+        console.error('Error adding to route:', error);
+        this.processingRouteUpdates[route.id] = false;
+      }
+    });
+  }
+
+  isExperienceInRoute(route: any): boolean {
+    return route.experience?.some((exp: any) => exp.id === this.experience?.id) ?? false;
   }
 }

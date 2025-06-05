@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RoutesService } from '../../services/routes.services';
-import {catchError, EMPTY, map, tap} from 'rxjs';
+import { catchError, EMPTY, map, tap } from 'rxjs';
 
 @Component({
   selector: 'app-details',
@@ -46,10 +46,10 @@ export class DetailsComponent implements OnInit {
         }
       }),
       map((response) => {
-        const routeData = response.data[0]; // Get the first route from data array
+        const routeData = response.data[0];
         if (!routeData.name || routeData.name.trim() === '') {
           const defaultName = `Route_${this.routeId}`;
-          this.saveDefaultName(defaultName);
+          this.saveDefaultName(routeData, defaultName);
           return { ...routeData, name: defaultName };
         }
         return routeData;
@@ -69,11 +69,10 @@ export class DetailsComponent implements OnInit {
     });
   }
 
-  private saveDefaultName(defaultName: string): void {
+  private saveDefaultName(currentData: any, defaultName: string): void {
     const updateData = {
-      name: defaultName,
-      category: this.routeData?.category || [],
-      experience: this.routeData?.experience || []
+      ...currentData,
+      name: defaultName
     };
 
     this.routesService.updateRoute(this.routeId, updateData).pipe(
@@ -86,28 +85,20 @@ export class DetailsComponent implements OnInit {
     });
   }
 
-  toggleEditMode(): void {
-    this.editMode = !this.editMode;
-    if (!this.editMode) {
-      this.editedName = this.routeData.name;
-    }
-  }
-
   saveChanges(): void {
-    // Prevent empty names
     if (!this.editedName.trim()) {
       this.editedName = 'Nueva Ruta';
     }
 
-    this.routesService.updateRoute(this.routeId, { name: this.editedName }).subscribe({
+    this.routesService.updateRouteName(this.routeId, this.editedName.trim()).subscribe({
       next: () => {
-        this.routeData.name = this.editedName;
+        this.routeData.name = this.editedName.trim();
         this.editMode = false;
         this.error = null;
       },
       error: (err) => {
+        console.error('Error updating route name:', err);
         this.error = 'Error al actualizar el nombre';
-        console.error('Error:', err);
       }
     });
   }
@@ -116,7 +107,12 @@ export class DetailsComponent implements OnInit {
     const updatedExperiences = [...this.routeData.experience];
     updatedExperiences.splice(index, 1);
 
-    this.routesService.updateRoute(this.routeId, { experience: updatedExperiences }).subscribe({
+    const updatedRoute = {
+      ...this.routeData,
+      experience: updatedExperiences
+    };
+
+    this.routesService.updateRoute(this.routeId, updatedRoute).subscribe({
       next: () => {
         this.routeData.experience = updatedExperiences;
         this.error = null;
@@ -126,6 +122,13 @@ export class DetailsComponent implements OnInit {
         console.error('Error:', err);
       }
     });
+  }
+
+  toggleEditMode(): void {
+    this.editMode = !this.editMode;
+    if (!this.editMode) {
+      this.editedName = this.routeData.name;
+    }
   }
 
   openDeleteModal(): void {

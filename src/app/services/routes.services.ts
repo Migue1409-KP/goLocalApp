@@ -25,19 +25,40 @@ export class RoutesService {
     return this.http.delete(`${this.baseUrl}/${routeId}`);
   }
 
-  updateRoute(routeId: string, newData: any): Observable<any> {
+  // routes.service.ts
+  updateRoute(routeId: string, updatedRoute: any): Observable<any> {
     return this.getRouteById(routeId).pipe(
-      switchMap((currentData) => {
-        // Merge current data with new data
-        const updatedData = {
+      switchMap((currentRoute) => {
+        const currentData = currentRoute.data[0];
+
+        // Remove duplicates from experiences array
+        const uniqueExperiences = Array.from(
+          new Map(updatedRoute.experience.map((exp: any) => [exp.id, exp])).values()
+        );
+
+        // Remove duplicates from categories array
+        const uniqueCategories = Array.from(
+          new Map(updatedRoute.category.map((cat: any) => [cat.id, cat])).values()
+        );
+
+        const routeToUpdate = {
           ...currentData,
-          ...newData,
-          category: newData.category || currentData.category,
-          experience: newData.experience || currentData.experience
+          experience: uniqueExperiences,
+          category: uniqueCategories
         };
 
-        // Send the updated data to the server
-        return this.http.patch<any>(`${this.baseUrl}/${routeId}`, updatedData);
+        return this.http.patch<any>(`${this.baseUrl}/${routeId}`, routeToUpdate);
+      })
+    );
+  }
+  updateRouteName(routeId: string, newName: string): Observable<any> {
+    return this.getRouteById(routeId).pipe(
+      switchMap((currentRoute) => {
+        const routeToUpdate = {
+          ...currentRoute.data[0],
+          name: newName
+        };
+        return this.http.patch<any>(`${this.baseUrl}/${routeId}`, routeToUpdate);
       })
     );
   }

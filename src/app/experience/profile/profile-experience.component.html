@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 
+
 <div *ngIf="loading" class="spinner-container">
   <div class="spinner"></div>
 </div>
@@ -7,14 +8,42 @@
 <div *ngIf="experience && !loading" class="experience-profile">
   <div class="title-row">
     <h1>{{ experience.name }}</h1>
-    <button class="heart-btn" (click)="toggleFavorite()">
-      <i 
-        class="fa-heart"
-        [class.far]="!isFavorited"
-        [class.fas]="isFavorited"
-        [class.favorited]="isFavorited"
-      ></i>
-    </button>
+    <div class="action-buttons">
+      <button class="heart-btn" (click)="toggleFavorite()">
+        <i class="fa-heart"
+           [class.far]="!isFavorited"
+           [class.fas]="isFavorited"
+           [class.favorited]="isFavorited"></i>
+      </button>
+
+      <div class="add-to-route-dropdown">
+        <button class="add-route-btn" (click)="toggleRouteMenu()">
+          <i class="fas fa-plus"></i>
+        </button>
+
+        <div class="route-menu" *ngIf="showRouteMenu">
+          <h4>Añadir a ruta</h4>
+          <div *ngIf="loadingRoutes" class="spinner"></div>
+          <div *ngIf="!loadingRoutes && userRoutes.length === 0" class="no-routes">
+            No tienes rutas creadas
+          </div>
+          <ul *ngIf="!loadingRoutes && userRoutes.length > 0">
+            <li *ngFor="let route of userRoutes">
+              <button
+                (click)="addToRoute(route)"
+                [disabled]="isExperienceInRoute(route) || processingAnyRoute"
+              >
+                {{ route.name }}
+                <span *ngIf="isExperienceInRoute(route)">(Ya añadida)</span>
+                <span *ngIf="processingRouteUpdates[route.id]" class="spinner-border spinner-border-sm" role="status">
+                  <span class="visually-hidden">Cargando...</span>
+                </span>
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Rating Summary -->
@@ -34,7 +63,7 @@
     <p class="price">💰 Precio: {{ experience.price | currency:'COP':'symbol' }}</p>
     <p class="category">🏷️ Categoría: <strong>{{ categoryName }}</strong></p>
     <p class="business">
-      🏢 Negocio: 
+      🏢 Negocio:
       <strong>
         <a (click)="goToBusiness()" class="business-link">{{ businessName }}</a>
       </strong>
