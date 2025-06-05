@@ -47,29 +47,34 @@
           <span *ngIf="!routeData.category || routeData.category.length === 0" class="text-muted">
             Sin categorías
           </span>
-          <span *ngFor="let cat of routeData.category" class="category-tag">
-            {{ cat }}
-          </span>
+          <div *ngFor="let cat of routeData.category; let i = index" class="category-item">
+            <span class="category-tag">{{ cat.name }}</span>
+            <button class="btn btn-sm btn-danger ms-2" (click)="removeCategory(i)">
+              <i class="bi bi-x"></i>
+            </button>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Experiencias -->
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">Experiencias</h5>
-        <div *ngIf="!routeData.experience || routeData.experience.length === 0" class="text-muted">
-          Sin experiencias registradas
+    <div class="experiences-container mt-4">
+      <h3>Experiencias en esta ruta</h3>
+      <div class="experiences-grid">
+        <div *ngIf="!routeData?.experience?.length" class="no-experiences">
+          No hay experiencias en esta ruta
         </div>
-        <ul *ngIf="routeData.experience?.length > 0" class="list-group">
-          <li *ngFor="let exp of routeData.experience; let i = index"
-              class="list-group-item d-flex justify-content-between align-items-center">
-            {{ exp }}
-            <button class="btn btn-sm btn-outline-danger" (click)="removeExperience(i)">
-              <i class="bi bi-x-lg"></i>
+        <div *ngFor="let exp of routeData?.experience; let i = index" class="experience-card">
+          <div class="d-flex justify-content-between align-items-start">
+            <div class="experience-content" (click)="goToExperience(exp.id)">
+              <h4 class="experience-title">{{ exp.name }}</h4>
+              <p class="experience-description">{{ exp.description }}</p>
+            </div>
+            <button class="btn btn-sm btn-danger" (click)="removeExperience(i)">
+              <i class="bi bi-x"></i>
             </button>
-          </li>
-        </ul>
+          </div>
+        </div>
       </div>
     </div>
 

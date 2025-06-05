@@ -1,60 +1,204 @@
-/* details.component.css */
-.route-details {
-  max-width: 800px;
-  margin: 0 auto;
+/* General container styling */
+.container {
+  max-width: 1200px;
+  padding: 2rem;
+}
+
+/* Route title section */
+.route-title {
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.route-title .h2 {
+  font-size: 2.5rem;
+  color: #1a237e;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.route-title .btn-outline-primary {
+  border: none;
+  padding: 0.5rem;
+  transition: transform 0.2s ease;
+}
+
+.route-title .btn-outline-primary:hover {
+  transform: scale(1.1);
+  background: none;
+  color: #1a237e;
+}
+
+/* Categories section */
+.card {
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+  color: #1a237e;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
 }
 
 .category-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.8rem;
+  padding: 0.5rem 0;
+}
+
+.category-item {
+  background: #f5f7ff;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  transition: all 0.2s ease;
+}
+
+.category-item:hover {
+  background: #e8eaff;
 }
 
 .category-tag {
-  background: #e9ecef;
-  padding: 0.25rem 0.75rem;
-  border-radius: 15px;
-  font-size: 0.875rem;
-  color: #495057;
+  color: #3949ab;
+  font-weight: 500;
 }
 
-.modal {
-  position: fixed !important;
-  background-color: rgba(0, 0, 0, 0.5);
+.category-item .btn-danger {
+  background: transparent;
+  color: #dc3545;
+  border: none;
+  padding: 0;
+  margin-left: 0.5rem;
+  opacity: 0.6;
 }
 
-.route-title {
-  flex: 1;
+.category-item .btn-danger:hover {
+  opacity: 1;
+  background: transparent;
 }
 
-.route-title input {
-  max-width: 400px;
+/* Experiences section */
+.experiences-container {
+  margin-top: 3rem;
 }
 
-.list-group-item button {
+.experiences-container h3 {
+  color: #1a237e;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.experiences-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.experience-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  transition: all 0.3s ease;
+  border: 1px solid #f0f0f0;
+}
+
+.experience-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.experience-title {
+  color: #1a237e;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+}
+
+.experience-description {
+  color: #555;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.experience-content {
+  padding-right: 1rem;
+}
+
+.experience-card .btn-danger {
+  padding: 0.4rem;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  color: #dc3545;
+  border: 1px solid #dc3545;
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: all 0.2s ease;
 }
 
-.list-group-item:hover button {
+.experience-card:hover .btn-danger {
   opacity: 1;
 }
 
-.modal.show {
-  display: block;
+.experience-card .btn-danger:hover {
+  background: #dc3545;
+  color: white;
 }
 
-.modal-backdrop {
-  display: none;
+/* Modal styling */
+.modal-content {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-.modal-backdrop.show {
-  display: block;
-  opacity: 0.5;
-  background-color: rgba(0, 0, 0, 0.5);
+.modal-header {
+  border-bottom: 1px solid #eee;
+  padding: 1.5rem;
 }
-.route-title .h2 {
-  font-size: 2rem !important;
-  font-weight: bold !important;
-  color: #000 !important;
+
+.modal-footer {
+  border-top: 1px solid #eee;
+  padding: 1.5rem;
+}
+
+/* Loading spinner */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  color: #1a237e;
+}
+
+/* Error and warning alerts */
+.alert {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.no-experiences {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  background: #f8f9fa;
+  border-radius: 12px;
+  grid-column: 1 / -1;
 }

@@ -5,6 +5,24 @@ import { FormsModule } from '@angular/forms';
 import { RoutesService } from '../../services/routes.services';
 import { catchError, EMPTY, map, tap } from 'rxjs';
 
+interface Experience {
+  id: string;
+  name: string;
+  description: string;
+}
+
+interface RouteData {
+  id: string;
+  name: string;
+  category: Category[];  // Changed from string[] to Category[]
+  experience: Experience[];
+}
+
+interface Category {
+  id: string;
+  name: string;
+}
+
 @Component({
   selector: 'app-details',
   standalone: true,
@@ -14,12 +32,13 @@ import { catchError, EMPTY, map, tap } from 'rxjs';
 })
 export class DetailsComponent implements OnInit {
   routeId: string = '';
-  routeData: any = null;
+  routeData: RouteData | null = null;
   loading: boolean = true;
   error: string | null = null;
   editMode: boolean = false;
   editedName: string = '';
   showDeleteModal: boolean = false;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -92,7 +111,9 @@ export class DetailsComponent implements OnInit {
 
     this.routesService.updateRouteName(this.routeId, this.editedName.trim()).subscribe({
       next: () => {
-        this.routeData.name = this.editedName.trim();
+        if (this.routeData) {
+          this.routeData.name = this.editedName.trim();
+        }
         this.editMode = false;
         this.error = null;
       },
@@ -103,30 +124,9 @@ export class DetailsComponent implements OnInit {
     });
   }
 
-  removeExperience(index: number): void {
-    const updatedExperiences = [...this.routeData.experience];
-    updatedExperiences.splice(index, 1);
-
-    const updatedRoute = {
-      ...this.routeData,
-      experience: updatedExperiences
-    };
-
-    this.routesService.updateRoute(this.routeId, updatedRoute).subscribe({
-      next: () => {
-        this.routeData.experience = updatedExperiences;
-        this.error = null;
-      },
-      error: (err) => {
-        this.error = 'Error al eliminar la experiencia';
-        console.error('Error:', err);
-      }
-    });
-  }
-
   toggleEditMode(): void {
     this.editMode = !this.editMode;
-    if (!this.editMode) {
+    if (!this.editMode && this.routeData) {
       this.editedName = this.routeData.name;
     }
   }
@@ -148,6 +148,54 @@ export class DetailsComponent implements OnInit {
         this.error = 'Error al eliminar la ruta';
         console.error('Error:', err);
         this.showDeleteModal = false;
+      }
+    });
+  }
+  goToExperience(id: string): void {
+    this.router.navigate(['/profileExperience', id]);
+  }
+  removeCategory(index: number): void {
+    const updatedCategories = [...this.routeData!.category];
+    updatedCategories.splice(index, 1);
+
+    const updatedRoute = {
+      ...this.routeData,
+      category: updatedCategories
+    };
+
+    this.routesService.updateRoute(this.routeId, updatedRoute).subscribe({
+      next: () => {
+        if (this.routeData) {
+          this.routeData.category = updatedCategories;
+        }
+        this.error = null;
+      },
+      error: (err) => {
+        this.error = 'Error al eliminar la categoría';
+        console.error('Error:', err);
+      }
+    });
+  }
+
+  removeExperience(index: number): void {
+    const updatedExperiences = [...this.routeData!.experience];
+    updatedExperiences.splice(index, 1);
+
+    const updatedRoute = {
+      ...this.routeData,
+      experience: updatedExperiences
+    };
+
+    this.routesService.updateRoute(this.routeId, updatedRoute).subscribe({
+      next: () => {
+        if (this.routeData) {
+          this.routeData.experience = updatedExperiences;
+        }
+        this.error = null;
+      },
+      error: (err) => {
+        this.error = 'Error al eliminar la experiencia';
+        console.error('Error:', err);
       }
     });
   }
