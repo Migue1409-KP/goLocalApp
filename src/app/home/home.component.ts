@@ -17,8 +17,9 @@ export class HomeComponent implements OnInit {
   loading = false;
   error: string | null = null;
 
-  cities: any[] = [];
   states: any[] = [];
+  allCities: any[] = [];  
+  cities: any[] = [];     
   categories: any[] = [];
 
   constructor(
@@ -36,23 +37,45 @@ export class HomeComponent implements OnInit {
     });
 
     this.loadFilters();
+
+    // Cambios de departamento
+    this.form.get('stateId')?.valueChanges.subscribe(stateId => {
+      this.filterCitiesByState(stateId);
+    });
   }
 
   loadFilters(): void {
-    this.http.get<any>('http://localhost:8080/api/v1/rest/cities').subscribe({
-      next: res => this.cities = res,
-      error: () => this.error = 'Error al cargar ciudades.'
-    });
-
     this.http.get<any>('http://localhost:8080/api/v1/rest/states').subscribe({
       next: res => this.states = res,
       error: () => this.error = 'Error al cargar departamentos.'
+    });
+
+    this.http.get<any>('http://localhost:8080/api/v1/rest/cities').subscribe({
+      next: res => {
+        this.allCities = res || [];
+        this.cities = this.allCities.slice().sort((a, b) => a.name.localeCompare(b.name)); // Mostrar todo al inicio
+      },
+      error: () => this.error = 'Error al cargar ciudades.'
     });
 
     this.http.get<any>('http://localhost:8080/api/v1/rest/category/list').subscribe({
       next: res => this.categories = res.data?.[0] || [],
       error: () => this.error = 'Error al cargar categorías.'
     });
+  }
+
+  filterCitiesByState(stateId: string): void {
+    if (!stateId) {
+      // Volver a mostrar todas si se limpia el estado
+      this.cities = this.allCities.slice().sort((a, b) => a.name.localeCompare(b.name));
+      return;
+    }
+
+    this.cities = this.allCities
+      .filter(city => city.state?.id === stateId)
+      .sort((a, b) => a.name.localeCompare(b.name));
+
+    this.form.get('cityId')?.setValue(''); 
   }
 
   onSearch(): void {
@@ -63,7 +86,7 @@ export class HomeComponent implements OnInit {
     if (name) params.push(`name=${encodeURIComponent(name)}`);
     if (cityId) params.push(`cityId=${cityId}`);
     if (stateId) params.push(`stateId=${stateId}`);
-    if (categoryId) params.push(`categoryId=${categoryId}`);
+    if (categoryId) params.push(`categoryIds=${categoryId}`); 
 
     const query = params.length ? '?' + params.join('&') : '';
 
@@ -96,5 +119,7 @@ export class HomeComponent implements OnInit {
     this.form.reset();
     this.businesses = [];
     this.error = null;
+    // restaurar todas las ciudades
+    this.cities = this.allCities.slice().sort((a, b) => a.name.localeCompare(b.name));
   }
 }
