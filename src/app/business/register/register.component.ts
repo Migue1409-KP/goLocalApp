@@ -79,40 +79,41 @@ export class RegisterBusinessComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.businessForm.valid) {
-      const rawData = this.businessForm.value;
+  if (this.businessForm.valid) {
+    const rawData = this.businessForm.value;
 
-      const payload = {
-        ...rawData,
-        categories: rawData.categories.map((cat: any) => cat.id)
-      };
+    const payload = {
+      ...rawData,
+      categories: rawData.categories.map((cat: any) => cat.id)
+    };
 
-      this.businessService.registerBusiness(payload).subscribe({
-        next: res => {
-          if (res.status === 'CREATED') {
-            this.success = res.message;
-            this.error = null;
-            setTimeout(() => {
-              this.success = null;
-              this.router.navigate(['/perfil']);
-            }, 1500);
-          } else {
+    this.businessService.registerBusiness(payload).subscribe({
+      next: res => {
+        if (res.status === 'CREATED') {
+          this.success = res.message;
+          this.error = null;
+          setTimeout(() => {
             this.success = null;
-            this.error = res.message || 'Error inesperado.';
-            setTimeout(() => this.error = null, 2000);
-          }
-        },
-        error: err => {
-          console.log(err)
-          const msg = err?.error?.message || 'Error al registrar el negocio.';
+            this.router.navigate(['/list-business']);
+          }, 1500);
+        } else {
           this.success = null;
-          this.error = msg;
+          this.error = res.message || 'Error inesperado.';
+          setTimeout(() => this.error = null, 2000);
         }
-      });
-    } else {
-      this.businessForm.markAllAsTouched();
-    }
+      },
+      error: err => {
+        const backendMessage = err?.error?.message || 'Error al registrar el negocio.';
+        this.success = null;
+        this.error = backendMessage;
+        setTimeout(() => this.error = null, 3000);
+      }
+    });
+  } else {
+    this.businessForm.markAllAsTouched();
   }
+}
+
 
   onCategoryChange() {
     const control = this.businessForm.get('categories');
