@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   templateUrl: './profile-business.component.html',
   styleUrls: ['./profile-business.component.css'],
-  imports: [CommonModule, HttpClientModule, RouterModule]
+  imports: [CommonModule, RouterModule]
 })
 export class ProfileBusinessComponent implements OnInit {
   business: any = null;
