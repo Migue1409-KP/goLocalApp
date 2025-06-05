@@ -1,0 +1,30 @@
+<div class="dashboard-container">
+  <h1>🌟 ¡Bienvenido a GoLocal!</h1>
+  <p class="subtext">¿Qué deseas hacer hoy?</p>
+
+  <div class="card-grid">
+    <!-- Card 1: Ir al Inicio -->
+    <div class="card" (click)="navigate('/home')">
+      <img src="assets/img/start.svg" alt="Inicio" />
+      <h2>Inicio</h2>
+      <p>Explora todo lo que GoLocal tiene para ti.</p>
+      <button>Ir al inicio</button>
+    </div>
+
+    <!-- Card 2: Ver Experiencias -->
+    <div class="card" (click)="navigate('/list-experiences')">
+      <img src="assets/img/experience.svg" alt="Experiencias" />
+      <h2>Experiencias</h2>
+      <p>Descubre vivencias únicas ofrecidas por negocios locales.</p>
+      <button>Ver experiencias</button>
+    </div>
+
+    <!-- Card 3: Registrar Negocio -->
+    <div class="card" *ngIf="isOwner" (click)="navigate('/register-business')">
+      <img src="assets/img/store.svg" alt="Registrar Negocio" />
+      <h2>Registrar Negocio</h2>
+      <p>Publica tu negocio y llega a más personas.</p>
+      <button>Registrar negocio</button>
+    </div>
+  </div>
+</div>

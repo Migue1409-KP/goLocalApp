@@ -17,9 +17,15 @@ import { RegisterExperienceComponent } from './experience/register/register-expe
 import { ExperienceListComponent } from './experience/list/experience-list.component';
 import { ProfileExperienceComponent } from './experience/profile/profile-experience.component';
 import { HomeComponent } from './home/home.component';
+import { MainDashboardComponent } from './dashboard/main-dashboard.component';
 
 
 export const routes: Routes = [
+    {
+        path: '',
+        title: 'GoLocal',
+        component: MainDashboardComponent
+    },
     {
         path: 'register',
         title: 'Crear Cuenta',
