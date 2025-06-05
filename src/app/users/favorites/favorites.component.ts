@@ -41,7 +41,7 @@ export class FavoritesComponent implements OnInit {
   }
 
   goToExperience(id: string): void {
-    this.router.navigate(['/experience', id]);
+    this.router.navigate([`profileExperience/${id}`]);
   }
 
   deleteFavorite(favoriteId: string, event: MouseEvent): void {
