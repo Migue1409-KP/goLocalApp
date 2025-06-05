@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 
 @Component({
@@ -10,7 +10,6 @@ import { Router, RouterModule } from '@angular/router';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    HttpClientModule,
     RouterModule
   ],
   templateUrl: './register.component.html',

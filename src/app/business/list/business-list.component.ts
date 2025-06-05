@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 
@@ -8,7 +8,7 @@ import { Router, RouterModule } from '@angular/router';
   standalone: true,
   templateUrl: './business-list.component.html',
   styleUrls: ['./business-list.component.css'],
-  imports: [CommonModule, HttpClientModule, RouterModule]
+  imports: [CommonModule, RouterModule]
 })
 export class BusinessListComponent implements OnInit {
   businesses: any[] = [];

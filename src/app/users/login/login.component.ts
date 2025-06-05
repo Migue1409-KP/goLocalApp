@@ -4,14 +4,13 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Usuario } from '../../interfaces/usuario';
-import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [ReactiveFormsModule, CommonModule, RouterModule, HttpClientModule]
+  imports: [ReactiveFormsModule, CommonModule, RouterModule]
 })
 export class LoginComponent {
   loginForm: FormGroup;

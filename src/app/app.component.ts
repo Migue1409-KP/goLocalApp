@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
   }
 
   redirectToHome(): void {
-    this.router.navigate(['home']);
+    this.router.navigate(['']);
   }
 
   redirectToFavorites(): void {
